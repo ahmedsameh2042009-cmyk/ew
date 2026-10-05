@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASG | شركة تقنية وإبداعية - نصمم المستقبل</title>
+<meta name="description" content="ASG منصة الشركة الرسمية لاستقبال العملاء وتنفيذ المشاريع التقنية والإبداعية">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--red:#E60023;--red2:#FF2D47;--red-d:#A5001A;--dark:#0A0A0F;--dark2:#13131C;--dark3:#1C1C28;--white:#fff;--gray:#F6F6F8;--gray2:#E8E8EE;--txt:#1A1A25;--mut:#6B6B7D;--line:rgba(0,0,0,.08);--glass:rgba(255,255,255,.7);--sh:0 20px 60px rgba(230,0,35,.12);--sh2:0 10px 40px rgba(0,0,0,.1);--r:20px;--tr:.35s cubic-bezier(.2,.9,.3,1.2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--white);color:var(--txt);overflow-x:hidden;line-height:1.7}
+::selection{background:var(--red);color:#fff}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--gray)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--red),var(--red-d));border-radius:10px}
+a{text-decoration:none;color:inherit}img{max-width:100%;display:block}button{font-family:inherit;cursor:pointer}
+.container{max-width:1280px;margin:auto;padding:0 22px}
+/* Preloader */
+#loader{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:.6s}
+#loader.hide{opacity:0;visibility:hidden}
+.loader-logo{font-family:'Orbitron';font-size:64px;font-weight:900;color:#fff;letter-spacing:6px}
+.loader-logo span{color:var(--red);text-shadow:0 0 30px var(--red);animation:pulse 1s infinite alternate}
+@keyframes pulse{to{text-shadow:0 0 60px var(--red2)}}
+.loader-bar{width:220px;height:4px;background:#222;border-radius:10px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red2));animation:load 1.6s forwards}
+@keyframes load{to{width:100%}}
+/* Progress */
+#progress{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,var(--red),#ff7a00);width:0;z-index:9998}
+/* Nav */
+nav{position:fixed;top:0;right:0;left:0;z-index:1000;padding:14px 0;transition:.4s;background:rgba(255,255,255,.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+nav.scrolled{box-shadow:var(--sh2);padding:8px 0}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron';font-weight:900;font-size:26px}
+.logo-cube{width:42px;height:42px;background:linear-gradient(135deg,var(--red),var(--red-d));border-radius:12px;display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:0 8px 25px rgba(230,0,35,.4);transform:rotate(-8deg)}
+.nav-links{display:flex;gap:22px;font-weight:700;font-size:14.5px}
+.nav-links a{position:relative;padding:6px 2px;transition:.3s}
+.nav-links a:hover{color:var(--red)}
+.nav-links a::after{content:'';position:absolute;bottom:0;right:0;width:0;height:2px;background:var(--red);transition:.3s;border-radius:2px}
+.nav-links a:hover::after{width:100%}
+.nav-btns{display:flex;gap:10px;align-items:center}
+.btn{border:0;border-radius:50px;padding:11px 24px;font-weight:800;font-size:14px;transition:.3s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+.btn-red{background:linear-gradient(135deg,var(--red),var(--red-d));color:#fff;box-shadow:0 10px 30px rgba(230,0,35,.35)}
+.btn-red:hover{transform:translateY(-3px);box-shadow:0 18px 45px rgba(230,0,35,.45)}
+.btn-red::before{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:.6s}
+.btn-red:hover::before{left:130%}
+.btn-white{background:#fff;color:var(--txt);border:1.5px solid var(--gray2)}
+.btn-white:hover{border-color:var(--red);color:var(--red);transform:translateY(-3px)}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-dark:hover{background:var(--red);transform:translateY(-3px)}
+.btn-ghost{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--red)}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gray2);background:#fff;display:grid;place-items:center;transition:.3s;font-weight:800;font-size:13px}
+.icon-btn:hover{border-color:var(--red);color:var(--red)}
+#burger{display:none;font-size:22px;background:0;border:0}
+/* Mobile */
+#mmenu{position:fixed;top:0;bottom:0;left:-100%;width:300px;background:var(--dark);z-index:2000;padding:30px 22px;transition:.45s;display:flex;flex-direction:column;gap:16px;color:#fff}
+#mmenu.open{left:0}
+#mmenu a{padding:12px;border-radius:12px;background:rgba(255,255,255,.06);font-weight:700}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1500;display:none}
+#overlay.show{display:block}
+/* Hero */
+#home{position:relative;min-height:100vh;display:flex;align-items:center;padding:130px 0 60px;overflow:hidden;background:radial-gradient(1200px 600px at 80% 20%,rgba(230,0,35,.12),transparent),radial-gradient(800px 500px at 10% 80%,rgba(0,0,0,.06),transparent),#fff}
+#hero3d{position:absolute;inset:0;z-index:0;opacity:1}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.04) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);z-index:0}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;width:100%}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--gray2);padding:8px 16px;border-radius:50px;font-size:13px;font-weight:800;box-shadow:var(--sh2)}
+.badge .dot{width:9px;height:9px;background:#00d66a;border-radius:50%;animation:pulse 1.2s infinite alternate;box-shadow:0 0 10px #00d66a}
+.hero-in h1{font-size:clamp(32px,5.2vw,62px);line-height:1.25;font-weight:900;margin:18px 0}
+.hero-in h1 .red{background:linear-gradient(135deg,var(--red),#ff5a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-in h1 .line{position:relative;display:inline-block}
+.hero-in p.sub{font-size:17px;color:var(--mut);max-width:560px;margin-bottom:24px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hstat b{font-size:26px;display:block;font-family:'Orbitron'}
+.hstat span{font-size:13px;color:var(--mut);font-weight:700}
+.hero-visual{position:relative;height:520px}
+.float-card{position:absolute;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:18px;box-shadow:var(--sh2);padding:12px;animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-16px) rotate(var(--rot,0deg))}}
+.fc1{top:10px;right:0;width:260px;--rot:3deg}
+.fc2{top:190px;left:0;width:230px;--rot:-4deg;animation-delay:1s}
+.fc3{bottom:10px;right:30px;width:280px;--rot:2deg;animation-delay:2s}
+.float-card img{border-radius:12px;height:130px;width:100%;object-fit:cover}
+.float-card h4{font-size:13px;margin-top:8px}.float-card small{color:var(--mut)}
+.hero-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;background:radial-gradient(circle,rgba(230,0,35,.25),transparent 70%);filter:blur(10px);z-index:-1}
+.scroll-down{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--mut);font-size:12px;font-weight:700;z-index:2}
+.mouse{width:24px;height:38px;border:2px solid var(--mut);border-radius:14px;position:relative}
+.mouse::after{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:4px;height:8px;background:var(--red);border-radius:4px;animation:wheel 1.4s infinite}
+@keyframes wheel{to{top:20px;opacity:0}}
+/* Marquee */
+.marquee{background:var(--dark);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap;position:relative}
+.marquee-track{display:inline-flex;gap:50px;animation:mq 22s linear infinite;font-weight:800;opacity:.9}
+@keyframes mq{to{transform:translateX(50%)}}
+.marquee span i{color:var(--red);margin-left:8px}
+/* Sections */
+section{padding:90px 0;position:relative}
+.sec-head{text-align:center;max-width:700px;margin:0 auto 50px}
+.sec-tag{display:inline-block;background:rgba(230,0,35,.1);color:var(--red);font-weight:800;font-size:13px;padding:7px 18px;border-radius:50px;margin-bottom:12px;border:1px solid rgba(230,0,35,.2)}
+.sec-head h2{font-size:clamp(26px,3.5vw,42px);font-weight:900;margin-bottom:10px}
+.sec-head h2 em{color:var(--red);font-style:normal}
+.sec-head p{color:var(--mut)}
+/* Services */
+#services{background:var(--gray)}
+.s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.s-card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:var(--sh2);transition:.4s;border:1px solid transparent;position:relative}
+.s-card:hover{transform:translateY(-10px);border-color:rgba(230,0,35,.25);box-shadow:var(--sh)}
+.s-img{height:210px;overflow:hidden;position:relative}
+.s-img img{width:100%;height:100%;object-fit:cover;transition:.6s}
+.s-card:hover .s-img img{transform:scale(1.1)}
+.s-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}
+.s-icon{position:absolute;bottom:-22px;right:20px;width:56px;height:56px;background:linear-gradient(135deg,var(--red),var(--red-d));border-radius:16px;display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 10px 25px rgba(230,0,35,.4);z-index:2}
+.s-body{padding:32px 22px 22px}
+.s-body h3{font-size:19px;font-weight:900;margin-bottom:8px}
+.s-body p{font-size:14px;color:var(--mut);margin-bottom:12px;min-height:66px}
+.s-feats{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.s-feats span{background:var(--gray);font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px}
+.s-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--gray2);padding-top:14px}
+.price{font-weight:900}.price small{display:block;font-size:11px;color:var(--mut);font-weight:700}
+.s-actions{display:flex;gap:8px}
+.mini-btn{padding:9px 16px;border-radius:30px;font-size:13px;font-weight:800;border:0;transition:.3s}
+.mini-red{background:var(--red);color:#fff}.mini-red:hover{background:var(--dark)}
+.mini-ghost{background:var(--gray);color:var(--txt)}.mini-ghost:hover{background:var(--dark);color:#fff}
+/* Templates */
+.t-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.t-tab{padding:10px 24px;border-radius:30px;border:1.5px solid var(--gray2);background:#fff;font-weight:800;font-size:14px;transition:.3s}
+.t-tab.active,.t-tab:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.t-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.t-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--sh2);transition:.35s;border:1px solid var(--line)}
+.t-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:var(--sh)}
+.t-card img{height:180px;width:100%;object-fit:cover}
+.t-info{padding:14px}
+.t-info h4{font-size:15px;font-weight:900}
+.t-info p{font-size:12px;color:var(--mut)}
+.t-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.t-price{color:var(--red);font-weight:900;font-size:14px}
+/* Models */
+#models{background:var(--dark);color:#fff;overflow:hidden}
+#models .sec-head p{color:#aaa}
+#models .sec-tag{background:rgba(230,0,35,.2);border-color:rgba(230,0,35,.4)}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.m-card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:30px;transition:.4s;position:relative;backdrop-filter:blur(10px)}
+.m-card:hover{transform:translateY(-8px);border-color:var(--red)}
+.m-card.featured{border:2px solid var(--red);box-shadow:0 0 50px rgba(230,0,35,.3)}
+.m-tag{position:absolute;top:-14px;right:24px;background:var(--red);padding:4px 16px;border-radius:20px;font-size:12px;font-weight:800}
+.m-card h3{font-size:22px;margin:10px 0}.m-card .m-price{font-size:36px;font-weight:900;font-family:'Orbitron'}.m-card .m-price small{font-size:14px;color:#aaa;font-family:'Cairo'}
+.m-card ul{list-style:none;margin:18px 0;display:grid;gap:10px;font-size:14px}
+.m-card ul li i{color:#00e676;margin-left:8px}
+/* Process */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;position:relative}
+.steps::before{content:'';position:absolute;top:40px;right:5%;left:5%;height:3px;background:linear-gradient(90deg,var(--red),var(--gray2));border-radius:3px;z-index:0}
+.step{text-align:center;position:relative;z-index:1;background:#fff;padding:10px}
+.step-n{width:80px;height:80px;margin:0 auto 14px;background:#fff;border:3px solid var(--red);border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:900;box-shadow:var(--sh);transition:.3s}
+.step:hover .step-n{background:var(--red);color:#fff;transform:scale(1.1) rotate(-8deg)}
+.step h4{font-weight:900;margin-bottom:6px}.step p{font-size:13px;color:var(--mut)}
+/* Why */
+#why{background:var(--gray)}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:16px}
+.b-card{background:#fff;border-radius:22px;padding:26px;box-shadow:var(--sh2);transition:.35s;border:1px solid transparent}
+.b-card:hover{transform:translateY(-6px);border-color:var(--red)}
+.b-card.big{grid-column:span 2;background:linear-gradient(135deg,var(--dark),#2a0a12);color:#fff;position:relative;overflow:hidden}
+.b-card.big::after{content:'ASG';position:absolute;left:-10px;bottom:-30px;font-family:'Orbitron';font-size:110px;font-weight:900;opacity:.06}
+.b-card i.big-ic{font-size:34px;color:var(--red);margin-bottom:12px;display:block}
+.b-card h4{font-weight:900;margin-bottom:8px}.b-card p{font-size:13.5px;color:var(--mut)}
+.b-card.big p{color:#bbb}
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about-imgs{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.about-imgs img{border-radius:20px;height:220px;width:100%;object-fit:cover;box-shadow:var(--sh2)}
+.about-imgs img:first-child{grid-column:span 2;height:260px}
+.exp-badge{position:absolute;bottom:-18px;right:50%;transform:translateX(50%);background:var(--red);color:#fff;padding:14px 28px;border-radius:18px;text-align:center;box-shadow:var(--sh)}
+.exp-badge b{font-size:26px;font-family:'Orbitron';display:block;line-height:1}
+.about-txt h2{font-size:32px;font-weight:900;margin:12px 0}
+.about-txt p{color:var(--mut);margin-bottom:14px}
+.values{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.val{display:flex;gap:10px;align-items:center;background:var(--gray);padding:12px;border-radius:14px;font-weight:800;font-size:14px}
+.val i{color:var(--red);font-size:18px}
+/* Portfolio */
+.p-filter{display:flex;gap:10px;justify-content:center;margin-bottom:26px;flex-wrap:wrap}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.p-card{border-radius:20px;overflow:hidden;position:relative;height:280px;box-shadow:var(--sh2);cursor:pointer}
+.p-card img{width:100%;height:100%;object-fit:cover;transition:.6s}
+.p-card:hover img{transform:scale(1.12)}
+.p-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,.92) 10%,transparent 65%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff;opacity:.92;transition:.4s}
+.p-ov span.cat{background:var(--red);align-self:flex-start;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;margin-bottom:8px}
+.p-ov h4{font-weight:900}.p-ov small{opacity:.8}
+/* Testimonials */
+#testi{background:var(--gray)}
+.testi-wrap{position:relative;max-width:800px;margin:auto}
+.testi-track{display:flex;transition:.5s}
+.testi{flex:0 0 100%;background:#fff;border-radius:24px;padding:36px;text-align:center;box-shadow:var(--sh2);margin:0 4px}
+.testi img{width:70px;height:70px;border-radius:50%;object-fit:cover;margin:0 auto 12px;border:3px solid var(--red)}
+.stars{color:#FFB800;margin-bottom:10px}
+.testi-dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.testi-dots button{width:10px;height:10px;border-radius:50%;border:0;background:#ccc;transition:.3s}
+.testi-dots button.active{width:30px;border-radius:10px;background:var(--red)}
+/* Stats dark */
+.stats-dark{background:linear-gradient(135deg,#0A0A0F,#1a0510);color:#fff;padding:60px 0;position:relative;overflow:hidden}
+.stats-dark::before{content:'';position:absolute;top:-100px;left:20%;width:400px;height:400px;background:radial-gradient(circle,rgba(230,0,35,.3),transparent);filter:blur(40px)}
+.st-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;position:relative}
+.st-grid b{font-size:42px;font-family:'Orbitron';background:linear-gradient(#fff,var(--red2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.st-grid span{font-weight:700;color:#bbb}
+/* FAQ */
+.faq-list{max-width:800px;margin:auto;display:grid;gap:12px}
+.faq{background:#fff;border:1.5px solid var(--line);border-radius:16px;overflow:hidden;transition:.3s}
+.faq.open{border-color:var(--red);box-shadow:var(--sh)}
+.faq-q{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:900}
+.faq-q i{width:32px;height:32px;background:var(--gray);border-radius:50%;display:grid;place-items:center;transition:.3s;flex-shrink:0}
+.faq.open .faq-q i{background:var(--red);color:#fff;transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:.4s;color:var(--mut);font-size:14px}
+.faq-a div{padding:0 20px 18px}
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--red) 0%,#7a0013 60%,var(--dark) 100%);border-radius:32px;padding:60px 40px;text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(230,0,35,.35)}
+.cta-box::before{content:'';position:absolute;inset:0;background:url('https://www.transparenttextures.com/patterns/cubes.png');opacity:.15}
+.cta-box h2{font-size:clamp(26px,4vw,44px);font-weight:900;margin-bottom:12px;position:relative}
+.cta-box p{opacity:.9;margin-bottom:24px;position:relative}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+/* Contact */
+#contact{background:var(--gray)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.c-form{background:#fff;border-radius:24px;padding:32px;box-shadow:var(--sh2)}
+.c-form h3{margin-bottom:16px;font-weight:900}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-group{margin-bottom:14px}
+.f-group label{display:block;font-weight:800;font-size:13px;margin-bottom:6px}
+.f-group input,.f-group select,.f-group textarea{width:100%;padding:13px 15px;border:1.5px solid var(--gray2);border-radius:12px;font-family:inherit;font-size:14px;transition:.3s;background:#fff}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 4px rgba(230,0,35,.1)}
+.c-info{display:grid;gap:14px}
+.c-card{background:var(--dark);color:#fff;border-radius:20px;padding:24px;display:flex;gap:16px;align-items:center;transition:.3s}
+.c-card:hover{transform:translateX(-6px)}
+.c-card i{width:52px;height:52px;background:var(--red);border-radius:14px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
+/* Footer */
+footer{background:var(--dark);color:#bbb;padding:60px 0 0}
+.f-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:30px;padding-bottom:40px}
+.f-grid h4{color:#fff;margin-bottom:14px}
+.f-grid a{display:block;padding:6px 0;font-size:14px;transition:.3s}
+.f-grid a:hover{color:var(--red);padding-right:6px}
+.news{display:flex;margin-top:12px;background:rgba(255,255,255,.08);border-radius:30px;padding:5px;border:1px solid rgba(255,255,255,.1)}
+.news input{flex:1;background:0;border:0;color:#fff;padding:10px 16px;font-family:inherit;outline:0}
+.news button{background:var(--red);border:0;color:#fff;border-radius:30px;padding:10px 20px;font-weight:800}
+.socials{display:flex;gap:10px;margin-top:14px}
+.socials a{width:38px;height:38px;background:rgba(255,255,255,.08);border-radius:10px;display:grid;place-items:center;transition:.3s}
+.socials a:hover{background:var(--red);color:#fff;transform:translateY(-3px)}
+.f-bottom{border-top:1px solid rgba(255,255,255,.1);padding:18px 0;text-align:center;font-size:13px}
+/* Modals */
+.modal{position:fixed;inset:0;z-index:3000;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(10,10,20,.7);backdrop-filter:blur(8px)}
+.modal-box{position:relative;background:#fff;border-radius:26px;max-width:900px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,.4);animation:pop .4s cubic-bezier(.2,1.2,.3,1)}
+@keyframes pop{from{transform:scale(.9) translateY(30px);opacity:0}}
+.modal-head{position:sticky;top:0;background:#fff;padding:20px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;z-index:5;border-radius:26px 26px 0 0}
+.modal-head h3{font-weight:900}
+.x-btn{width:38px;height:38px;border-radius:50%;border:0;background:var(--gray);font-size:18px;transition:.3s}
+.x-btn:hover{background:var(--red);color:#fff;transform:rotate(90deg)}
+.modal-body{padding:26px}
+/* Workflow */
+.w-progress{display:flex;gap:6px;margin-bottom:22px}
+.w-progress i{flex:1;height:7px;background:var(--gray2);border-radius:10px;position:relative;overflow:hidden}
+.w-progress i.done{background:var(--red)}
+.w-progress i.active::after{content:'';position:absolute;inset:0;background:var(--red);animation:wfill 1s infinite alternate}
+@keyframes wfill{from{opacity:.5}to{opacity:1}}
+.w-step{display:none;animation:fadeUp .4s}
+.w-step.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}}
+.w-step h4{font-size:20px;font-weight:900;margin-bottom:6px}
+.w-step>p{color:var(--mut);font-size:14px;margin-bottom:18px}
+.opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt{border:2px solid var(--gray2);border-radius:16px;padding:16px;text-align:center;cursor:pointer;transition:.3s;background:#fff}
+.opt:hover{border-color:var(--red)}
+.opt.sel{border-color:var(--red);background:rgba(230,0,35,.06);box-shadow:0 0 0 4px rgba(230,0,35,.1)}
+.opt i{font-size:28px;color:var(--red);margin-bottom:8px}
+.opt b{font-size:14px;display:block}.opt small{color:var(--mut);font-size:12px}
+.opt img{height:90px;width:100%;object-fit:cover;border-radius:10px;margin-bottom:8px}
+.w-nav{display:flex;justify-content:space-between;margin-top:24px;gap:10px}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.chk{display:flex;gap:10px;align-items:center;border:1.5px solid var(--gray2);padding:12px 14px;border-radius:12px;cursor:pointer;font-size:13.5px;font-weight:700;transition:.3s}
+.chk.sel{border-color:var(--red);background:rgba(230,0,35,.06)}
+.chk .box{width:20px;height:20px;border:2px solid #ccc;border-radius:6px;display:grid;place-items:center;font-size:12px;color:#fff;flex-shrink:0}
+.chk.sel .box{background:var(--red);border-color:var(--red)}
+input[type=range]{width:100%;accent-color:var(--red)}
+.review-box{background:var(--gray);border-radius:16px;padding:18px;display:grid;gap:10px;font-size:14px}
+.review-box div{display:flex;justify-content:space-between;border-bottom:1px dashed #ddd;padding-bottom:8px}
+.success{text-align:center;padding:20px}
+.success .ok{width:90px;height:90px;background:#00d66a;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:40px;margin:0 auto 16px;box-shadow:0 15px 40px rgba(0,214,106,.4);animation:pop .5s}
+.req-id{background:var(--dark);color:#fff;display:inline-block;padding:10px 26px;border-radius:30px;font-family:'Orbitron';letter-spacing:2px;margin:12px 0}
+/* Auth */
+.auth-tabs{display:flex;background:var(--gray);border-radius:14px;padding:5px;margin-bottom:20px}
+.auth-tabs button{flex:1;border:0;background:0;padding:11px;border-radius:10px;font-weight:800;transition:.3s}
+.auth-tabs button.active{background:#fff;box-shadow:var(--sh2);color:var(--red)}
+.auth-form{display:none}.auth-form.active{display:block;animation:fadeUp .3s}
+/* Dashboards */
+.dash{position:fixed;inset:0;z-index:3000;background:var(--gray);display:none;overflow:hidden}
+.dash.show{display:block}
+.dash-in{display:grid;grid-template-columns:260px 1fr;height:100vh}
+.sidebar{background:var(--dark);color:#fff;padding:24px 16px;display:flex;flex-direction:column;gap:8px}
+.sidebar .logo{color:#fff;margin-bottom:18px;font-size:22px}
+.side-link{padding:12px 14px;border-radius:12px;display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px;transition:.3s;cursor:pointer;border:0;background:0;color:#bbb;width:100%;text-align:right}
+.side-link:hover,.side-link.active{background:var(--red);color:#fff}
+.dash-main{overflow-y:auto;padding:26px}
+.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.dash-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.d-card{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sh2);border-right:5px solid var(--red)}
+.d-card b{font-size:28px;font-family:'Orbitron';display:block}
+.d-card span{font-size:13px;color:var(--mut);font-weight:700}
+.d-panel{background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sh2);margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:var(--gray);padding:12px;text-align:right;font-weight:900}
+td{padding:12px;border-bottom:1px solid var(--line)}
+.badge-st{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800}
+.st-pending{background:#FFF3CD;color:#8a6d00}.st-progress{background:#D1ECFF;color:#005a9e}.st-done{background:#D4EDDA;color:#0a6b2a}.st-cancel{background:#F8D7DA;color:#8a0a1a}
+.action-btns{display:flex;gap:6px}
+.abtn{border:0;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:800;transition:.3s}
+.abtn.view{background:#eef}.abtn.del{background:#fee;color:var(--red)}.abtn:hover{transform:scale(1.1)}
+/* Chat widget */
+#chatBtn{position:fixed;bottom:22px;left:22px;width:58px;height:58px;background:linear-gradient(135deg,var(--red),var(--red-d));border:0;border-radius:50%;color:#fff;font-size:22px;z-index:2000;box-shadow:0 12px 35px rgba(230,0,35,.5);transition:.3s}
+#chatBtn:hover{transform:scale(1.1)}
+#chatBox{position:fixed;bottom:92px;left:22px;width:340px;max-width:calc(100vw - 44px);height:440px;background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.3);z-index:2000;display:none;flex-direction:column;overflow:hidden}
+#chatBox.show{display:flex;animation:pop .3s}
+.chat-head{background:linear-gradient(135deg,var(--dark),#2a0a12);color:#fff;padding:16px;display:flex;gap:10px;align-items:center}
+.chat-head .av{width:42px;height:42px;background:var(--red);border-radius:50%;display:grid;place-items:center;font-weight:900}
+#chatMsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--gray)}
+.msg{max-width:80%;padding:10px 14px;border-radius:16px;font-size:13.5px;animation:fadeUp .3s}
+.msg.bot{background:#fff;align-self:flex-start;border-bottom-right-radius:4px;box-shadow:var(--sh2)}
+.msg.user{background:var(--red);color:#fff;align-self:flex-end;border-bottom-left-radius:4px}
+.chat-in{display:flex;padding:10px;gap:8px;background:#fff}
+.chat-in input{flex:1;border:1.5px solid var(--gray2);border-radius:30px;padding:10px 14px;font-family:inherit;outline:0}
+.chat-in button{background:var(--red);border:0;color:#fff;width:42px;height:42px;border-radius:50%}
+/* Toast */
+#toasts{position:fixed;top:90px;left:20px;z-index:5000;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--dark);color:#fff;padding:14px 20px;border-radius:14px;display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px;box-shadow:0 15px 40px rgba(0,0,0,.3);animation:slideIn .4s;border-right:4px solid var(--red);max-width:340px}
+@keyframes slideIn{from{transform:translateX(-100%);opacity:0}}
+.toast.ok{border-color:#00d66a}.toast.err{border-color:var(--red)}
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:.8s cubic-bezier(.2,.8,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+/*Lang EN*/
+html[dir=ltr] body{font-family:'Space Grotesk','Cairo',sans-serif}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--gray);padding:6px 12px 6px 6px;border-radius:30px;font-weight:800;font-size:13px;cursor:pointer}
+html[dir=ltr] .user-chip{padding:6px 6px 6px 12px}
+.user-chip .av{width:32px;height:32px;background:var(--red);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:14px}
+@media(max-width:1024px){.s-grid{grid-template-columns:repeat(2,1fr)}.t-grid{grid-template-columns:repeat(2,1fr)}.m-grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(3,1fr)}.steps::before{display:none}.bento{grid-template-columns:repeat(2,1fr)}.p-grid{grid-template-columns:repeat(2,1fr)}.hero-in{grid-template-columns:1fr}.hero-visual{height:420px}.st-grid{grid-template-columns:repeat(2,1fr)}.f-grid{grid-template-columns:1fr 1fr}.dash-in{grid-template-columns:1fr}.sidebar{flex-direction:row;overflow-x:auto;padding:12px}.sidebar .logo,.sidebar p{display:none}.dash-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.nav-links{display:none}#burger{display:block}.s-grid,.t-grid,.p-grid,.contact-grid,.about-grid,.f-row{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.bento{grid-template-columns:1fr}.b-card.big{grid-column:span 1}.cta-box{padding:40px 20px}.opt-grid{grid-template-columns:1fr 1fr}.checks{grid-template-columns:1fr}.modal-body{padding:18px}.f-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="loader"><div class="loader-logo">A<span>S</span>G</div><div class="loader-bar"><i></i></div><p style="color:#888;font-weight:700;font-size:13px">جاري تجهيز تجربة المستقبل...</p></div>
+<div id="progress"></div>
+
+<nav id="nav"><div class="container nav-in">
+<div class="logo"><div class="logo-cube"><i class="fa-solid fa-cube"></i></div><span>ASG</span></div>
+<div class="nav-links">
+<a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+<a href="#services" data-ar="خدماتنا" data-en="Services">خدماتنا</a>
+<a href="#templates" data-ar="القوالب" data-en="Templates">القوالب</a>
+<a href="#process" data-ar="كيف نعمل" data-en="Process">كيف نعمل</a>
+<a href="#work" data-ar="أعمالنا" data-en="Work">أعمالنا</a>
+<a href="#about" data-ar="من نحن" data-en="About">من نحن</a>
+<a href="#faq" data-ar="الأسئلة" data-en="FAQ">الأسئلة</a>
+<a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+</div>
+<div class="nav-btns">
+<button class="icon-btn" id="langBtn" title="Language">EN</button>
+<span id="authArea"><button class="btn btn-white" onclick="openAuth()"><i class="fa-regular fa-user"></i> <span data-ar="دخول" data-en="Login">دخول</span></button></span>
+<button class="btn btn-red" onclick="openWorkflow()"><i class="fa-solid fa-rocket"></i> <span data-ar="ابدأ مشروعك" data-en="Start Project">ابدأ مشروعك</span></button>
+<button id="burger" onclick="toggleMenu(true)"><i class="fa-solid fa-bars"></i></button>
+</div>
+</div></nav>
+
+<div id="overlay" onclick="toggleMenu(false);closeAllModals()"></div>
+<div id="mmenu">
+<button class="x-btn" style="align-self:flex-end" onclick="toggleMenu(false)">✕</button>
+<a href="#home" onclick="toggleMenu(false)">🏠 الرئيسية</a>
+<a href="#services" onclick="toggleMenu(false)">⚡ خدماتنا</a>
+<a href="#templates" onclick="toggleMenu(false)">🎨 القوالب والمعاينات</a>
+<a href="#models" onclick="toggleMenu(false)">💼 نماذج الأعمال</a>
+<a href="#process" onclick="toggleMenu(false)">⚙️ كيف نعمل</a>
+<a href="#work" onclick="toggleMenu(false)">💎 أعمالنا</a>
+<a href="#about" onclick="toggleMenu(false)">🏢 من نحن</a>
+<a href="#contact" onclick="toggleMenu(false)">📞 تواصل معنا</a>
+<button class="btn btn-red" onclick="toggleMenu(false);openWorkflow()">🚀 ابدأ مشروعك</button>
+<button class="btn btn-ghost" onclick="toggleMenu(false);openAuth()">دخول / حساب جديد</button>
+</div>
+
+<!-- HERO -->
+<header id="home">
+<canvas id="hero3d"></canvas>
+<div class="hero-grid-bg"></div>
+<div class="container hero-in">
+<div>
+<div class="badge reveal in"><span class="dot"></span> <span data-ar="● متاحون لمشاريع جديدة — رد خلال 24 ساعة" data-en="● Available for new projects — reply in 24h">● متاحون لمشاريع جديدة — رد خلال 24 ساعة</span></div>
+<h1 class="reveal in">نبني <span class="red">منتجات رقمية</span> استثنائية<br>تُطلق نمو <span class="line">شركتك 🚀</span></h1>
+<p class="sub" data-ar="ASG شركة تقنية وإبداعية متكاملة: مواقع، متاجر، تطبيقات، هويات بصرية، وأنظمة ذكاء اصطناعي وأتمتة. اختر خدمتك، تصفح القوالب، وابدأ مشروعك في دقائق." data-en="ASG is a full tech & creative company: websites, stores, apps, branding, AI & automation. Choose your service, browse templates, start in minutes.">ASG شركة تقنية وإبداعية متكاملة: مواقع، متاجر، تطبيقات، هويات بصرية، وأنظمة ذكاء اصطناعي وأتمتة. اختر خدمتك، تصفح القوالب، وابدأ مشروعك في دقائق.</p>
+<div class="hero-btns">
+<button class="btn btn-red" style="padding:15px 34px;font-size:16px" onclick="openWorkflow()"><i class="fa-solid fa-rocket"></i> ابدأ مشروعك الآن</button>
+<a href="#services" class="btn btn-white" style="padding:15px 30px;font-size:16px"><i class="fa-solid fa-compass"></i> استكشف خدماتنا</a>
+</div>
+<div class="hero-stats">
+<div class="hstat"><b style="color:var(--red)">+350</b><span>مشروع منجز</span></div>
+<div class="hstat"><b>+120</b><span>عميل سعيد</span></div>
+<div class="hstat"><b>98%</b><span>رضا العملاء</span></div>
+<div class="hstat"><b>24/7</b><span>دعم مستمر</span></div>
+</div>
+</div>
+<div class="hero-visual">
+<div class="hero-orb"></div>
+<div class="float-card fc1"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=600&auto=format&fit=crop" alt="web"><h4>🚀 منصة SaaS — زيادة 240%</h4><small>تطوير + UI/UX • تم التسليم</small></div>
+<div class="float-card fc2"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&auto=format&fit=crop" alt="app"><h4>📱 تطبيق توصيل</h4><small><i class="fa-solid fa-star" style="color:#FFB800"></i> 4.9 • +50K تحميل</small></div>
+<div class="float-card fc3"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&auto=format&fit=crop" alt="store"><h4>🛍️ متجر إلكتروني — مبيعات ×3</h4><small>Shopify مخصص • تحويل 6.2%</small></div>
+</div>
+</div>
+<div class="scroll-down"><div class="mouse"></div>اسحب للأسفل</div>
+</header>
+
+<div class="marquee"><div class="marquee-track" id="mq"></div></div>
+
+<!-- SERVICES -->
+<section id="services"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">⚡ خدماتنا الاحترافية</span><h2>كل ما تحتاجه <em>للنمو الرقمي</em> في مكان واحد</h2><p>6 خدمات أساسية بجودة عالمية — اضغط على أي خدمة لعرض التفاصيل والأمثلة والقوالب</p></div>
+<div class="s-grid" id="servicesGrid"></div>
+</div></section>
+
+<!-- TEMPLATES -->
+<section id="templates"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">🎨 معرض القوالب والمعاينات</span><h2>اختر <em>الستايل</em> الذي يعبر عنك</h2><p>قوالب حقيقية عالية الجودة — اختر قالبك وسنخصصه بالكامل لهويتك</p></div>
+<div class="t-tabs reveal">
+<button class="t-tab active" onclick="filterTemplates('all',this)">الكل</button>
+<button class="t-tab" onclick="filterTemplates('web',this)">مواقع شركات</button>
+<button class="t-tab" onclick="filterTemplates('store',this)">متاجر إلكترونية</button>
+<button class="t-tab" onclick="filterTemplates('app',this)">تطبيقات</button>
+<button class="t-tab" onclick="filterTemplates('brand',this)">هويات بصرية</button>
+</div>
+<div class="t-grid" id="templateGrid"></div>
+</div></section>
+
+<!-- MODELS -->
+<section id="models"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">💼 نماذج العمل</span><h2 style="color:#fff">اختر طريقة <em>التعاون</em> المناسبة لك</h2><p>مرونة كاملة: مشروع واحد، فريقك الخاص، أو شريك نمو شهري</p></div>
+<div class="m-grid">
+<div class="m-card reveal"><span style="font-size:40px">🎯</span><h3>مشروع ثابت</h3><p style="color:#aaa;font-size:14px">مثالي للمشاريع المحددة بسعر ووقت ثابت</p><div class="m-price">$1,500<small> / يبدأ من</small></div><ul><li><i class="fa-solid fa-check"></i> نطاق عمل واضح وثابت</li><li><i class="fa-solid fa-check"></i> تسليم من 2 - 6 أسابيع</li><li><i class="fa-solid fa-check"></i> مراجعتان مجانيتان</li><li><i class="fa-solid fa-check"></i> دعم 30 يوم بعد الإطلاق</li><li><i class="fa-solid fa-check"></i> ملكية كاملة للكود</li></ul><button class="btn btn-white" style="width:100%;justify-content:center" onclick="openWorkflow('web')">اختر هذا النموذج</button></div>
+<div class="m-card featured reveal d1"><div class="m-tag">🔥 الأكثر طلبًا</div><span style="font-size:40px">👥</span><h3>فريق مخصص</h3><p style="color:#aaa;font-size:14px">فريقك التقني الكامل بدون توظيف</p><div class="m-price">$3,900<small> / شهريًا</small></div><ul><li><i class="fa-solid fa-check"></i> مصمم + مطور + مدير مشروع</li><li><i class="fa-solid fa-check"></i> عمل يومي واجتماعات أسبوعية</li><li><i class="fa-solid fa-check"></i> مرونة كاملة في المهام</li><li><i class="fa-solid fa-check"></i> تقارير وتتبع عبر لوحة خاصة</li><li><i class="fa-solid fa-check"></i> إلغاء في أي وقت</li></ul><button class="btn btn-red" style="width:100%;justify-content:center" onclick="openWorkflow('app')">اطلب فريقك الآن</button></div>
+<div class="m-card reveal d2"><span style="font-size:40px">♾️</span><h3>اشتراك النمو</h3><p style="color:#aaa;font-size:14px">تطوير وتحسين مستمر لمنتجك</p><div class="m-price">$990<small> / شهريًا</small></div><ul><li><i class="fa-solid fa-check"></i> تحديثات وتطوير مستمر</li><li><i class="fa-solid fa-check"></i> أولوية في الدعم 24/7</li><li><i class="fa-solid fa-check"></i> تحسين SEO وسرعة شهريًا</li><li><i class="fa-solid fa-check"></i> تقارير أداء ونمو</li><li><i class="fa-solid fa-check"></i> خصم 20% على الخدمات الجديدة</li></ul><button class="btn btn-white" style="width:100%;justify-content:center" onclick="openWorkflow('marketing')">اشترك الآن</button></div>
+</div>
+</div></section>
+
+<!-- PROCESS -->
+<section id="process"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">⚙️ منهجية العمل</span><h2>كيف <em>نحوّل فكرتك</em> إلى منتج حقيقي؟</h2><p>عملية واضحة من 5 خطوات — شفافية كاملة وتواصل مستمر</p></div>
+<div class="steps">
+<div class="step reveal"><div class="step-n">01</div><h4>🔍 الاكتشاف</h4><p>نفهم أهدافك وجمهورك ونحلل السوق والمنافسين مجانًا</p></div>
+<div class="step reveal d1"><div class="step-n">02</div><h4>🎨 التصميم</h4><p>نماذج أولية وتصاميم تفاعلية توافق عليها قبل البرمجة</p></div>
+<div class="step reveal d2"><div class="step-n">03</div><h4>💻 التطوير</h4><p>برمجة بأحدث التقنيات مع تحديثات يومية ومعاينة حية</p></div>
+<div class="step reveal d3"><div class="step-n">04</div><h4>🧪 الاختبار</h4><p>اختبار شامل للجودة والسرعة والأمان على كل الأجهزة</p></div>
+<div class="step reveal d3"><div class="step-n">05</div><h4>🚀 الإطلاق والنمو</h4><p>إطلاق رسمي + تدريب + دعم مستمر وخطط نمو</p></div>
+</div>
+<div style="text-align:center;margin-top:36px" class="reveal"><button class="btn btn-red" style="padding:14px 36px" onclick="openWorkflow()">ابدأ الخطوة الأولى مجانًا <i class="fa-solid fa-arrow-left"></i></button></div>
+</div></section>
+
+<!-- WHY -->
+<section id="why"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">💎 لماذا ASG؟</span><h2>لسنا مجرد منفذين — <em>نحن شركاء نجاحك</em></h2></div>
+<div class="bento">
+<div class="b-card big reveal"><span class="sec-tag">جاهزون للمستقبل</span><h3 style="font-size:26px;margin:10px 0">بنية قابلة للتوسع إلى <span style="color:var(--red2)">AI Agents & Automation</span></h3><p>كل مشروع نبنيه مهيأ للذكاء الاصطناعي والأتمتة. ندمج Chatbots ووكلاء AI وأنظمة CRM تلقائية تنمو معك.</p><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><span style="background:rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;font-size:12px">🤖 AI Ready</span><span style="background:rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;font-size:12px">⚡ Automation</span><span style="background:rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;font-size:12px">☁️ Cloud Native</span></div></div>
+<div class="b-card reveal d1"><i class="fa-solid fa-bolt big-ic"></i><h4>سرعة قياسية</h4><p>تسليم أسرع 40% بجودة أعلى بفضل أنظمة عمل ذكية.</p></div>
+<div class="b-card reveal d2"><i class="fa-solid fa-shield-halved big-ic"></i><h4>أمان وضمان</h4><p>عقود رسمية، ملكية كاملة، وضمان استرداد.</p></div>
+<div class="b-card reveal"><i class="fa-solid fa-headset big-ic"></i><h4>دعم حقيقي 24/7</h4><p>فريق دعم بشري + مدير مشروع خاص لكل عميل.</p></div>
+<div class="b-card reveal d1"><i class="fa-solid fa-chart-line big-ic"></i><h4>نتائج قابلة للقياس</h4><p>متوسط زيادة التحويل لدى عملائنا +180%.</p></div>
+<div class="b-card reveal d2"><i class="fa-solid fa-gem big-ic"></i><h4>جودة Premium</h4><p>تصاميم حائزة على جوائز وكود نظيف عالمي.</p></div>
+<div class="b-card reveal d3"><i class="fa-solid fa-wallet big-ic"></i><h4>أسعار عادلة</h4><p>شفافية كاملة — لا رسوم خفية أبدًا.</p></div>
+</div>
+</div></section>
+
+<!-- ABOUT -->
+<section id="about"><div class="container about-grid">
+<div class="about-imgs reveal"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=900&auto=format&fit=crop" alt="team"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=500&auto=format&fit=crop" alt="o"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=500&auto=format&fit=crop" alt="m"><div class="exp-badge"><b>+8</b><small>سنوات خبرة</small></div></div>
+<div class="about-txt reveal d1"><span class="sec-tag">🏢 من نحن</span><h2>شركة <em style="color:var(--red);font-style:normal">ASG</em> — حيث يلتقي الإبداع بالتقنية</h2><p>منذ 2018 ونحن نساعد الشركات الناشئة والعلامات الكبرى على بناء حضور رقمي استثنائي. فريق من 25+ خبيرًا في التصميم والبرمجة والتسويق والذكاء الاصطناعي.</p><p>رؤيتنا: أن نكون الشريك التقني الأول عربيًا في بناء منتجات تنافس عالميًا.</p><div class="values"><div class="val"><i class="fa-solid fa-eye"></i> الشفافية أولًا</div><div class="val"><i class="fa-solid fa-heart"></i> شغف بالتميز</div><div class="val"><i class="fa-solid fa-lightbulb"></i> ابتكار مستمر</div><div class="val"><i class="fa-solid fa-handshake"></i> شراكة حقيقية</div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-dark" onclick="document.getElementById('contact').scrollIntoView()">تعرف علينا أكثر</button><button class="btn btn-white" onclick="openAuth()">انضم كعميل <i class="fa-solid fa-arrow-left"></i></button></div></div>
+</div></section>
+
+<!-- PORTFOLIO -->
+<section id="work" style="background:var(--gray)"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">💼 أعمالنا</span><h2>مشاريع <em>نفخر بها</em> ونتائج تتحدث</h2></div>
+<div class="p-filter reveal"><button class="t-tab active" onclick="filterWork('all',this)">الكل</button><button class="t-tab" onclick="filterWork('web',this)">مواقع</button><button class="t-tab" onclick="filterWork('store',this)">متاجر</button><button class="t-tab" onclick="filterWork('app',this)">تطبيقات</button><button class="t-tab" onclick="filterWork('brand',this)">هويات</button></div>
+<div class="p-grid" id="workGrid"></div>
+</div></section>
+
+<!-- TESTIMONIALS -->
+<section id="testi"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">⭐ آراء العملاء</span><h2>ماذا يقول <em>عملاؤنا</em> عنا؟</h2></div>
+<div class="testi-wrap reveal"><div style="overflow:hidden;border-radius:24px"><div class="testi-track" id="testiTrack"></div></div><div class="testi-dots" id="testiDots"></div></div>
+</div></section>
+
+<div class="stats-dark"><div class="container st-grid">
+<div><b data-count="350">0</b><span>🚀 مشروع مكتمل</span></div>
+<div><b data-count="120">0</b><span>😊 عميل سعيد</span></div>
+<div><b data-count="25">0</b><span>👨‍💻 خبير في الفريق</span></div>
+<div><b data-count="98">0</b><span>⭐ نسبة الرضا %</span></div>
+</div></div>
+
+<!-- FAQ -->
+<section id="faq"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">❓ الأسئلة الشائعة</span><h2>كل ما تريد <em>معرفته</em></h2></div>
+<div class="faq-list" id="faqList"></div>
+</div></section>
+
+<!-- CTA -->
+<section><div class="container"><div class="cta-box reveal">
+<h2>جاهز تحوّل فكرتك إلى واقع؟ 🚀</h2>
+<p>احصل على استشارة مجانية وعرض سعر خلال 24 ساعة — بدون أي التزام</p>
+<div class="cta-btns"><button class="btn" style="background:#fff;color:var(--red);padding:15px 36px;font-size:16px" onclick="openWorkflow()"><i class="fa-solid fa-rocket"></i> ابدأ مشروعك الآن</button><a href="https://wa.me/966500000000" target="_blank" class="btn btn-ghost" style="padding:15px 30px"><i class="fa-brands fa-whatsapp"></i> واتساب مباشر</a></div>
+<div style="margin-top:16px;font-size:13px;opacity:.85;position:relative">✉️ info@asg-tech.com &nbsp;•&nbsp; 📞 +966 50 000 0000 &nbsp;•&nbsp; ⏱️ رد خلال 24 ساعة</div>
+</div></div></section>
+
+<!-- CONTACT -->
+<section id="contact"><div class="container">
+<div class="sec-head reveal"><span class="sec-tag">📞 تواصل معنا</span><h2>لنبدأ <em>الحوار</em></h2><p>فريقنا جاهز لسماعك — اختر الطريقة الأنسب لك</p></div>
+<div class="contact-grid">
+<div class="c-form reveal"><h3>📩 أرسل رسالتك</h3><form onsubmit="submitContact(event)"><div class="f-row"><div class="f-group"><label>الاسم الكامل *</label><input required id="cName" placeholder="مثال: محمد أحمد"></div><div class="f-group"><label>البريد الإلكتروني *</label><input required type="email" id="cEmail" placeholder="you@email.com" dir="ltr" style="text-align:right"></div></div><div class="f-row"><div class="f-group"><label>الجوال</label><input id="cPhone" placeholder="05xxxxxxxx"></div><div class="f-group"><label>الخدمة المطلوبة</label><select id="cService"><option>تطوير موقع</option><option>متجر إلكتروني</option><option>تطبيق جوال</option><option>هوية بصرية</option><option>ذكاء اصطناعي وأتمتة</option><option>تسويق رقمي</option></select></div></div><div class="f-group"><label>تفاصيل مشروعك *</label><textarea required id="cMsg" rows="4" placeholder="احكِ لنا عن فكرتك وأهدافك..."></textarea></div><button class="btn btn-red" style="width:100%;justify-content:center;padding:14px" type="submit"><i class="fa-solid fa-paper-plane"></i> إرسال إلى info@asg-tech.com</button></form></div>
+<div class="c-info reveal d1">
+<div class="c-card"><i class="fa-solid fa-envelope"></i><div><b>البريد الإلكتروني</b><br><small>info@asg-tech.com<br>support@asg-tech.com</small></div></div>
+<div class="c-card"><i class="fa-solid fa-phone"></i><div><b>الهاتف / واتساب</b><br><small dir="ltr">+966 50 000 0000<br>+966 11 234 5678</small></div></div>
+<div class="c-card"><i class="fa-solid fa-location-dot"></i><div><b>الموقع</b><br><small>الرياض، المملكة العربية السعودية<br>طريق الملك فهد، برج التقنية، طابق 12</small></div></div>
+<div class="c-card"><i class="fa-solid fa-clock"></i><div><b>ساعات العمل</b><br><small>الأحد - الخميس: 9ص - 6م<br>دعم الطوارئ: 24/7</small></div></div>
+</div>
+</div>
+</div></section>
+
+<footer><div class="container">
+<div class="f-grid">
+<div><div class="logo" style="color:#fff;margin-bottom:12px"><div class="logo-cube"><i class="fa-solid fa-cube"></i></div>ASG</div><p style="font-size:14px">شركة تقنية وإبداعية متكاملة نبني منتجات رقمية استثنائية منذ 2018. شريكك نحو المستقبل.</p><div class="socials"><a href="#"><i class="fa-brands fa-x-twitter"></i></a><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-linkedin"></i></a><a href="#"><i class="fa-brands fa-dribbble"></i></a><a href="#"><i class="fa-brands fa-behance"></i></a></div></div>
+<div><h4>خدماتنا</h4><a href="#" onclick="openService('web');return false">تطوير المواقع</a><a href="#" onclick="openService('store');return false">المتاجر الإلكترونية</a><a href="#" onclick="openService('app');return false">تطبيقات الجوال</a><a href="#" onclick="openService('brand');return false">الهويات البصرية</a><a href="#" onclick="openService('ai');return false">الذكاء الاصطناعي</a></div>
+<div><h4>الشركة</h4><a href="#about">من نحن</a><a href="#work">أعمالنا</a><a href="#process">كيف نعمل</a><a href="#faq">الأسئلة الشائعة</a><a href="#" onclick="openAdmin();return false">🔐 دخول الإدارة</a></div>
+<div><h4>النشرة البريدية</h4><p style="font-size:13px">اشترك ليصلك جديد التقنية والعروض</p><div class="news"><input placeholder="بريدك الإلكتروني" id="nlEmail"><button onclick="subscribe()">اشترك</button></div><p style="font-size:12px;margin-top:10px">✅ نحترم خصوصيتك — بدون إزعاج</p></div>
+</div>
+<div class="f-bottom">© 2026 ASG Tech & Creative Co. جميع الحقوق محفوظة • صُنع بشغف في الرياض 🇸🇦 • <a href="#" style="display:inline;color:var(--red2)" onclick="openAdmin();return false">لوحة الإدارة</a></div>
+</div></footer>
+
+<!-- SERVICE MODAL -->
+<div class="modal" id="serviceModal"><div class="modal-bg" onclick="closeModal('serviceModal')"></div><div class="modal-box"><div class="modal-head"><h3 id="smTitle"></h3><button class="x-btn" onclick="closeModal('serviceModal')">✕</button></div><div class="modal-body" id="smBody"></div></div></div>
+
+<!-- WORKFLOW MODAL -->
+<div class="modal" id="workflowModal"><div class="modal-bg"></div><div class="modal-box" style="max-width:760px"><div class="modal-head"><h3>🚀 ابدأ مشروعك — <span id="wStepLabel" style="color:var(--red)">الخطوة 1 من 6</span></h3><button class="x-btn" onclick="closeModal('workflowModal')">✕</button></div><div class="modal-body">
+<div class="w-progress" id="wProg"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="w-step active" id="ws1"><h4>1️⃣ اختر الخدمة المطلوبة</h4><p>ما الذي تريد بناءه؟ اختر خدمة واحدة للبدء</p><div class="opt-grid" id="wServices"></div></div>
+<div class="w-step" id="ws2"><h4>2️⃣ اختر الستايل والقالب</h4><p>اختر قالبًا يعجبك + النمط البصري المفضل</p><div class="opt-grid" id="wTemplates" style="margin-bottom:14px"></div><label style="font-weight:800;font-size:13px">النمط البصري:</label><div class="opt-grid" id="wStyles" style="margin-top:8px"></div></div>
+<div class="w-step" id="ws3"><h4>3️⃣ تفاصيل المشروع</h4><p>احكِ لنا أكثر عن فكرتك لنفهم رؤيتك بدقة</p><div class="f-group"><label>اسم المشروع *</label><input id="wName" placeholder="مثال: متجر لمسة للعطور"></div><div class="f-group"><label>وصف المشروع *</label><textarea id="wDesc" rows="3" placeholder="اشرح فكرتك، جمهورك المستهدف، وأهدافك..."></textarea></div><label style="font-weight:800;font-size:13px">المميزات المطلوبة (اختر ما يناسبك):</label><div class="checks" id="wFeats" style="margin-top:8px"></div></div>
+<div class="w-step" id="ws4"><h4>4️⃣ الميزانية والجدول الزمني</h4><p>حدد ميزانيتك لنقترح أفضل حل مناسب</p><div class="f-group"><label>الميزانية التقديرية: <b id="wBudgetVal" style="color:var(--red)">$5,000</b></label><input type="range" id="wBudget" min="500" max="50000" step="500" value="5000" oninput="document.getElementById('wBudgetVal').textContent='$'+Number(this.value).toLocaleString()"></div><div class="f-row"><div class="f-group"><label>المدة المطلوبة</label><select id="wTime"><option>مستعجل (أقل من شهر)</option><option selected>1 - 2 شهر</option><option>2 - 4 أشهر</option><option>مرن / بدون استعجال</option></select></div><div class="f-group"><label>الأولوية</label><select id="wPriority"><option>الجودة أولًا</option><option>السرعة أولًا</option><option>التكلفة أولًا</option><option>توازن بين الكل</option></select></div></div></div>
+<div class="w-step" id="ws5"><h4>5️⃣ بيانات التواصل</h4><p>كيف نتواصل معك لمناقشة مشروعك؟</p><div class="f-row"><div class="f-group"><label>الاسم الكامل *</label><input id="wFullName" placeholder="اسمك"></div><div class="f-group"><label>البريد الإلكتروني *</label><input id="wEmail" type="email" placeholder="you@email.com"></div></div><div class="f-row"><div class="f-group"><label>الجوال *</label><input id="wPhone" placeholder="05xxxxxxxx"></div><div class="f-group"><label>الشركة (اختياري)</label><input id="wCompany" placeholder="اسم شركتك"></div></div></div>
+<div class="w-step" id="ws6"><h4>6️⃣ مراجعة وتأكيد الطلب</h4><p>راجع بياناتك قبل الإرسال إلى فريق ASG</p><div class="review-box" id="wReview"></div><label style="display:flex;gap:8px;margin-top:12px;font-size:13px;align-items:flex-start"><input type="checkbox" id="wAgree" style="margin-top:5px"> أوافق على <b>شروط الخدمة وسياسة الخصوصية</b> وأوافق على تواصل فريق ASG معي عبر البريد والجوال.</label><div id="wSuccess" class="success" style="display:none"><div class="ok"><i class="fa-solid fa-check"></i></div><h3>تم استلام طلبك بنجاح! 🎉</h3><p>سيتواصل معك فريقنا خلال 24 ساعة</p><div class="req-id" id="wReqId">ASG-0000</div><p style="font-size:13px;color:var(--mut)">تم إرسال نسخة إلى info@asg-tech.com<br>يمكنك تتبع طلبك من حسابك</p><div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap"><button class="btn btn-dark" onclick="closeModal('workflowModal');openDashboard()">📊 تتبع في حسابي</button><button class="btn btn-white" onclick="closeModal('workflowModal')">إغلاق</button></div></div></div>
+<div class="w-nav" id="wNav"><button class="btn btn-white" id="wBack" onclick="wGo(-1)" style="visibility:hidden">→ السابق</button><button class="btn btn-red" id="wNext" onclick="wGo(1)">التالي ←</button></div>
+</div></div></div>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal"><div class="modal-bg" onclick="closeModal('authModal')"></div><div class="modal-box" style="max-width:480px"><div class="modal-head"><h3>👋 أهلًا بك في ASG</h3><button class="x-btn" onclick="closeModal('authModal')">✕</button></div><div class="modal-body">
+<div class="auth-tabs"><button class="active" onclick="authTab('login',this)">تسجيل الدخول</button><button onclick="authTab('register',this)">حساب جديد</button><button onclick="authTab('admin',this)">🔐 إدارة</button></div>
+<div class="auth-form active" id="al-login"><div class="f-group"><label>البريد الإلكتروني</label><input id="liEmail" placeholder="you@email.com"></div><div class="f-group"><label>كلمة المرور</label><input id="liPass" type="password" placeholder="••••••••"></div><button class="btn btn-red" style="width:100%;justify-content:center" onclick="doLogin()">دخول <i class="fa-solid fa-arrow-left"></i></button><p style="text-align:center;font-size:13px;margin-top:10px;color:var(--mut)">ليس لديك حساب؟ <a style="color:var(--red);font-weight:800;cursor:pointer" onclick="authTab('register',document.querySelectorAll('.auth-tabs button')[1])">سجل الآن</a></p></div>
+<div class="auth-form" id="al-register"><div class="f-row"><div class="f-group"><label>الاسم الكامل</label><input id="rgName" placeholder="اسمك"></div><div class="f-group"><label>الجوال</label><input id="rgPhone" placeholder="05xxxxxxxx"></div></div><div class="f-group"><label>البريد الإلكتروني</label><input id="rgEmail" type="email" placeholder="you@email.com"></div><div class="f-group"><label>كلمة المرور</label><input id="rgPass" type="password" placeholder="6 أحرف على الأقل"></div><button class="btn btn-red" style="width:100%;justify-content:center" onclick="doRegister()">إنشاء الحساب 🎉</button></div>
+<div class="auth-form" id="al-admin"><div style="background:#FFF3CD;border:1px solid #e6c200;border-radius:12px;padding:12px;font-size:13px;margin-bottom:14px">🔐 <b>دخول الإدارة:</b> admin@asg.tech / ASG2026</div><div class="f-group"><label>بريد الإدارة</label><input id="adEmail" placeholder="admin@asg.tech"></div><div class="f-group"><label>كلمة المرور</label><input id="adPass" type="password" placeholder="••••••••"></div><button class="btn btn-dark" style="width:100%;justify-content:center" onclick="doAdminLogin()">دخول لوحة الإدارة</button></div>
+</div></div></div>
+
+<!-- CLIENT DASHBOARD -->
+<div class="dash" id="clientDash"><div class="dash-in">
+<div class="sidebar"><div class="logo"><div class="logo-cube"><i class="fa-solid fa-cube"></i></div>ASG</div><p style="font-size:12px;color:#888;padding:0 10px" id="cdWelcome"></p><button class="side-link active" onclick="cdPage('overview',this)"><i class="fa-solid fa-grid"></i> نظرة عامة</button><button class="side-link" onclick="cdPage('requests',this)"><i class="fa-solid fa-folder"></i> طلباتي ومشاريعي</button><button class="side-link" onclick="cdPage('new',this)"><i class="fa-solid fa-plus"></i> طلب جديد</button><button class="side-link" onclick="cdPage('msgs',this)"><i class="fa-solid fa-comments"></i> الرسائل والدعم</button><button class="side-link" onclick="cdPage('profile',this)"><i class="fa-solid fa-user"></i> الملف الشخصي</button><div style="flex:1"></div><button class="side-link" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button><button class="side-link" onclick="closeDash('clientDash')"><i class="fa-solid fa-house"></i> عودة للموقع</button></div>
+<div class="dash-main"><div class="dash-top"><h2 id="cdTitle">👋 لوحة العميل</h2><button class="btn btn-red" onclick="closeDash('clientDash');openWorkflow()"><i class="fa-solid fa-plus"></i> مشروع جديد</button></div><div id="cdContent"></div></div>
+</div></div>
+
+<!-- ADMIN DASHBOARD -->
+<div class="dash" id="adminDash"><div class="dash-in">
+<div class="sidebar"><div class="logo"><div class="logo-cube">🔐</div>ADMIN</div><p style="font-size:12px;color:#888;padding:0 10px">لوحة إدارة ASG</p><button class="side-link active" onclick="adPage('overview',this)"><i class="fa-solid fa-chart-pie"></i> الإحصائيات</button><button class="side-link" onclick="adPage('orders',this)"><i class="fa-solid fa-box"></i> إدارة الطلبات</button><button class="side-link" onclick="adPage('clients',this)"><i class="fa-solid fa-users"></i> العملاء</button><div style="flex:1"></div><button class="side-link" onclick="exportCSV()"><i class="fa-solid fa-download"></i> تصدير CSV</button><button class="side-link" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button><button class="side-link" onclick="closeDash('adminDash')"><i class="fa-solid fa-house"></i> عودة للموقع</button></div>
+<div class="dash-main"><div class="dash-top"><h2 id="adTitle">📊 لوحة الإدارة</h2><div style="display:flex;gap:8px"><input id="adSearch" placeholder="🔍 بحث برقم الطلب أو الاسم..." style="padding:10px 16px;border-radius:30px;border:1.5px solid var(--gray2);font-family:inherit;min-width:240px" oninput="renderAdminOrders()"><select id="adFilter" onchange="renderAdminOrders()" style="padding:10px;border-radius:30px;border:1.5px solid var(--gray2);font-family:inherit"><option value="all">كل الحالات</option><option value="pending">قيد المراجعة</option><option value="progress">قيد التنفيذ</option><option value="done">مكتمل</option><option value="cancel">ملغي</option></select></div></div><div id="adContent"></div></div>
+</div></div>
+
+<button id="chatBtn" onclick="toggleChat()"><i class="fa-solid fa-comments"></i></button>
+<div id="chatBox"><div class="chat-head"><div class="av">ASG</div><div><b>مساعد ASG الذكي 🤖</b><br><small style="color:#0f0">● متصل الآن — يرد فورًا</small></div></div><div id="chatMsgs"></div><div class="chat-in"><input id="chatIn" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')sendChat()"><button onclick="sendChat()"><i class="fa-solid fa-paper-plane"></i></button></div></div>
+<div id="toasts"></div>
+
+<script>
+/* ============ DATA ============ */
+const SERVICES={
+web:{icon:'fa-solid fa-code',title:'تطوير المواقع الإلكترونية',desc:'مواقع شركات ومنصات سريعة، آمنة، ومتجاوبة بأحدث التقنيات مع SEO متقدم وتجربة استخدام استثنائية.',img:'https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop',price:'$1,500',feats:['تصميم مخصص','SEO متقدم','لوحة تحكم','سرعة فائقة'],gallery:['https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop'],details:'نبني مواقع احترافية بتقنيات React و Next.js و WordPress مخصص. كل موقع يشمل تصميم UI/UX فريد، تحسين سرعة (90+ على PageSpeed)، حماية أمنية، وتدريب كامل على الإدارة.'},
+store:{icon:'fa-solid fa-cart-shopping',title:'المتاجر الإلكترونية',desc:'متاجر سلة وزد وشوبيفاي مخصصة أو برمجة خاصة مع بوابات دفع وربط شركات الشحن وأنظمة تزيد مبيعاتك.',img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop',price:'$2,200',feats:['دفع إلكتروني','ربط الشحن','تطبيق تاجر','تسويق مدمج'],gallery:['https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1557821552-171051766652?x=80&w=800&auto=format&fit=crop'],details:'متاجر متكاملة بهوية سعودية وخليجية: دعم مدى و Apple Pay و Tabby وتمارا، ربط سمسا وأرامكس، كوبونات وولاء عملاء، وتقارير مبيعات ذكية.'},
+app:{icon:'fa-solid fa-mobile-screen',title:'تطبيقات الجوال',desc:'تطبيقات iOS و Android بتقنية Flutter و React Native — تصميم عصري وأداء سلس ونشر على المتاجر.',img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',price:'$4,500',feats:['iOS + Android','إشعارات','لوحة تحكم','نشر المتاجر'],gallery:['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop'],details:'من الفكرة إلى App Store: دراسة جدوى، Prototype تفاعلي، تطوير Flutter لكلا النظامين بكود واحد، APIs آمنة، اختبار شامل، ونشر مع ASO لزيادة التحميلات.'},
+brand:{icon:'fa-solid fa-palette',title:'الهوية البصرية و UI/UX',desc:'شعارات وهويات متكاملة وأنظمة تصميم ومواقع بصرية تأسر جمهورك وتميزك عن المنافسين.',img:'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop',price:'$900',feats:['شعار + هوية','دليل استخدام','سوشيال ميديا','مطبوعات'],gallery:['https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1558655146-9f40138edfeb?q=80&w=800&auto=format&fit=crop'],details:'هوية تحكي قصتك: بحث عن العلامة، 3 مفاهيم إبداعية، شعار + ألوان + خطوط، دليل هوية PDF، قوالب سوشيال ميديا، وقرطاسية ومطبوعات.'},
+ai:{icon:'fa-solid fa-robot',title:'الذكاء الاصطناعي والأتمتة',desc:'وكلاء AI و Chatbots وأنظمة أتمتة وربط CRM توفر 70% من وقتك وترفع كفاءة عملك.',img:'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop',price:'$2,800',feats:['AI Chatbot','أتمتة مهام','تحليل بيانات','ربط API'],gallery:['https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop'],details:'حلول AI جاهزة للمستقبل: مساعد ذكي لموقعك يرد 24/7، أتمتة المبيعات والدعم عبر WhatsApp، تحليل بيانات تنبؤي، وربط Zapier و Make و CRMs.'},
+marketing:{icon:'fa-solid fa-bullhorn',title:'التسويق الرقمي والنمو',desc:'إدارة حملات وإعلانات ممولة و SEO ومحتوى إبداعي يحقق عائد استثمار حقيقي وقابل للقياس.',img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',price:'$700',feats:['إعلانات ممولة','SEO','إدارة سوشيال','موشن ومحتوى'],gallery:['https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=800&auto=format&fit=crop','https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=800&auto=format&fit=crop'],details:'نمو مبني على البيانات: استراتيجية شاملة، حملات Google و Meta و TikTok، تحسين معدل التحويل CRO، تقارير أسبوعية شفافة، وفريق محتوى وتصميم مخصص.'}};
+const TEMPLATES=[
+{cat:'web',name:'قالب الشركات الفاخر — Onyx',style:'فاخر / داكن',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=600&auto=format&fit=crop'},
+{cat:'web',name:'قالب التقنية الحديث — Nova',style:'عصري / فاتح',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop'},
+{cat:'store',name:'متجر الأزياء — Vela',style:'أنيق / Minimal',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop'},
+{cat:'store',name:'متجر العطور — Essence',style:'فاخر / ذهبي',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=600&auto=format&fit=crop'},
+{cat:'app',name:'تطبيق التوصيل — Swift',style:'حيوي / برتقالي',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&auto=format&fit=crop'},
+{cat:'app',name:'تطبيق اللياقة — Pulse',style:'داكن / رياضي',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=600&auto=format&fit=crop'},
+{cat:'brand',name:'هوية المطاعم — Saffron',style:'دافئ / عربي',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?q=80&w=600&auto=format&fit=crop'},
+{cat:'brand',name:'هوية التقنية — Hexa',style:'مستقبلي / أحمر',price:'+$0 مع الخدمة',img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop'}];
+const WORKS=[
+{cat:'web',img:'https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=700&auto=format&fit=crop',title:'منصة عقار برو',sub:'موقع + لوحة تحكم • +240% زيارات'},
+{cat:'store',img:'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=700&auto=format&fit=crop',title:'متجر لمسة للعطور',sub:'متجر إلكتروني • مبيعات ×3'},
+{cat:'app',img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=700&auto=format&fit=crop',title:'تطبيق وصلني',sub:'توصيل طعام • +50K تحميل'},
+{cat:'brand',img:'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=700&auto=format&fit=crop',title:'هوية مقهى دال',sub:'هوية + تغليف • 12 فرع'},
+{cat:'web',img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=700&auto=format&fit=crop',title:'لوحة SaaS تحليلية',sub:'Dashboard • عملاء B2B'},
+{cat:'app',img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=700&auto=format&fit=crop',title:'تطبيق لياقة بلس',sub:'اشتراكات • 4.9★'}];
+const FAQS=[['كم تستغرق مدة تنفيذ المشروع؟','المواقع التعريفية 2-3 أسابيع، المتاجر 3-5 أسابيع، والتطبيقات 6-12 أسبوع حسب الحجم. نلتزم بجدول زمني واضح في العقد مع تحديثات يومية.'],['كيف تتم عملية الدفع؟','نعمل بنظام دفعات مريحة: 30% مقدم، 40% عند اعتماد التصميم، 30% عند التسليم. مع عقود رسمية وفواتير ضريبية.'],['هل أحصل على ملكية كاملة للمشروع؟','نعم 100%. الكود المصدري، التصاميم، وجميع الملفات ملك لك بالكامل مع توثيق شامل وتدريب على الإدارة.'],['هل تقدمون دعمًا بعد التسليم؟','نعم، دعم مجاني لمدة 30-90 يوم حسب الباقة، مع باقات صيانة شهرية اختيارية ودعم طوارئ 24/7.'],['هل يمكنني تتبع تقدم مشروعي؟','بالتأكيد! تحصل على حساب عميل خاص ولوحة تتبع حية + مجموعة واتساب مع فريقك + اجتماعات أسبوعية.'],['ما هي التقنيات التي تستخدمونها؟','React, Next.js, Flutter, Node.js, Python/AI, AWS — نختار الأنسب لمشروعك مع ضمان قابلية التوسع مستقبلًا.'],['هل تدعمون الذكاء الاصطناعي والأتمتة؟','نعم، كل مشاريعنا AI-Ready. ندمج Chatbots ووكلاء AI وأتمتة المبيعات والدعم وربط الأنظمة.'],['كيف أبدأ مشروعي معكم؟','ببساطة اضغط زر ابدأ مشروعك واملأ النموذج (3 دقائق)، وسنتواصل معك خلال 24 ساعة باستشارة مجانية وعرض سعر.']];
+const TESTIS=[['https://i.pravatar.cc/150?img=12','م. عبدالله الحربي','مؤسس متجر لمسة','تجربة استثنائية من البداية للنهاية. الفريق محترف والمتجر ضاعف مبيعاتنا 3 مرات خلال 4 أشهر. أنصح بهم بشدة!'],['https://i.pravatar.cc/150?img=47','سارة العتيبي','مديرة تسويق - عقار برو','أفضل قرار اتخذناه! الموقع الجديد رفع التحويل 240% والدعم بعد البيع راقٍ وسريع. شكرًا ASG.'],['https://i.pravatar.cc/150?img=33','خالد المطيري','CEO تطبيق وصلني','سلموا التطبيق قبل الموعد بجودة فاقت توقعاتنا. التواصل اليومي والشفافية شيء لم أره مع أي شركة أخرى.']];
+
+/* ============ HELPERS ============ */
+const $=id=>document.getElementById(id);
+const store={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+function toast(msg,type=''){const t=document.createElement('div');t.className='toast '+type;t.innerHTML=(type==='ok'?'✅':'📢')+' '+msg;$('toasts').appendChild(t);setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),400)},3500)}
+function toggleMenu(o){$('mmenu').classList.toggle('open',o);$('overlay').classList.toggle('show',o)}
+function closeAllModals(){document.querySelectorAll('.modal.show').forEach(m=>m.classList.remove('show'));$('overlay').classList.remove('show')}
+function closeModal(id){$(id).classList.remove('show')}
+function openModal(id){$(id).classList.add('show')}
+
+/* ============ RENDER ============ */
+function renderServices(){$('servicesGrid').innerHTML=Object.entries(SERVICES).map(([k,s],i)=>`<div class="s-card reveal ${i%3===1?'d1':i%3===2?'d2':''}"><div class="s-img"><img loading="lazy" src="${s.img}" alt="${s.title}"><div class="s-icon"><i class="${s.icon}"></i></div></div><div class="s-body"><h3>${s.title}</h3><p>${s.desc}</p><div class="s-feats">${s.feats.map(f=>`<span>✓ ${f}</span>`).join('')}</div><div class="s-foot"><div class="price"><small>يبدأ من</small>${s.price}</div><div class="s-actions"><button class="mini-btn mini-ghost" onclick="openService('${k}')">التفاصيل</button><button class="mini-btn mini-red" onclick="openWorkflow('${k}')">اطلب الآن</button></div></div></div></div>`).join('');observeReveals()}
+function renderTemplates(f='all'){$('templateGrid').innerHTML=TEMPLATES.filter(t=>f==='all'||t.cat===f).map(t=>`<div class="t-card"><img loading="lazy" src="${t.img}"><div class="t-info"><h4>${t.name}</h4><p>🎨 ${t.style}</p><div class="t-meta"><span class="t-price">${t.price}</span><button class="mini-btn mini-red" onclick="selectTemplate('${t.name}')">اختر القالب</button></div></div></div>`).join('')}
+function filterTemplates(f,b){document.querySelectorAll('#templates .t-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTemplates(f)}
+function selectTemplate(n){toast('تم اختيار قالب: '+n,'ok');openWorkflow(null,n)}
+function renderWorks(f='all'){$('workGrid').innerHTML=WORKS.filter(w=>f==='all'||w.cat===f).map(w=>`<div class="p-card" onclick="openWorkflow()"><img loading="lazy" src="${w.img}"><div class="p-ov"><span class="cat">Case Study</span><h4>${w.title}</h4><small>${w.sub}</small></div></div>`).join('')}
+function filterWork(f,b){document.querySelectorAll('.p-filter .t-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderWorks(f)}
+function renderFaq(){$('faqList').innerHTML=FAQS.map((f,i)=>`<div class="faq reveal"><div class="faq-q" onclick="this.parentElement.classList.toggle('open');this.nextElementSibling.style.maxHeight=this.parentElement.classList.contains('open')?this.nextElementSibling.scrollHeight+'px':'0'">${f[0]}<i class="fa-solid fa-plus"></i></div><div class="faq-a"><div>${f[1]}</div></div></div>`).join('');observeReveals()}
+let tIdx=0;function renderTesti(){$('testiTrack').innerHTML=TESTIS.map(t=>`<div class="testi"><img src="${t[0]}"><div class="stars">★★★★★</div><p style="font-size:15px;margin-bottom:12px">"${t[3]}"</p><b>${t[1]}</b><br><small style="color:var(--mut)">${t[2]}</small></div>`).join('');$('testiDots').innerHTML=TESTIS.map((_,i)=>`<button class="${i===0?'active':''}" onclick="goTesti(${i})"></button>`).join('')}
+function goTesti(i){tIdx=i;$('testiTrack').style.transform=`translateX(${i*100}%)`;document.querySelectorAll('#testiDots button').forEach((b,j)=>b.classList.toggle('active',j===i))}
+setInterval(()=>goTesti((tIdx+1)%TESTIS.length),5000);
+$('mq').innerHTML=(`<span><i class="fa-solid fa-star"></i>مواقع احترافية</span><span><i class="fa-solid fa-star"></i>متاجر إلكترونية</span><span><i class="fa-solid fa-star"></i>تطبيقات جوال</span><span><i class="fa-solid fa-star"></i>هويات بصرية</span><span><i class="fa-solid fa-star"></i>ذكاء اصطناعي</span><span><i class="fa-solid fa-star"></i>أتمتة الأعمال</span>`).repeat(3);
+
+/* ============ SERVICE MODAL ============ */
+function openService(k){const s=SERVICES[k];$('smTitle').innerHTML=`<i class="${s.icon}" style="color:var(--red)"></i> ${s.title}`;$('smBody').innerHTML=`<img src="${s.img}" style="width:100%;height:260px;object-fit:cover;border-radius:16px;margin-bottom:16px"><p style="color:var(--mut);margin-bottom:14px">${s.details}</p><div class="s-feats" style="margin-bottom:16px">${s.feats.map(f=>`<span>✓ ${f}</span>`).join('')}</div><h4 style="margin-bottom:10px">🖼️ أمثلة من أعمالنا</h4><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">${s.gallery.map(g=>`<img src="${g}" style="height:110px;object-fit:cover;border-radius:12px;width:100%">`).join('')}</div><h4 style="margin-bottom:10px">🎨 قوالب مقترحة لهذه الخدمة</h4><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px">${TEMPLATES.slice(0,4).map(t=>`<div style="border:1.5px solid var(--gray2);border-radius:12px;overflow:hidden"><img src="${t.img}" style="height:100px;width:100%;object-fit:cover"><div style="padding:8px;font-size:12px;font-weight:800">${t.name}</div></div>`).join('')}</div><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--gray);padding:16px;border-radius:16px"><div><small style="color:var(--mut)">يبدأ من</small><div style="font-size:26px;font-weight:900;color:var(--red)">${s.price}</div></div><div style="display:flex;gap:8px"><button class="btn btn-red" onclick="closeModal('serviceModal');openWorkflow('${k}')">اطلب هذه الخدمة 🚀</button><button class="btn btn-white" onclick="toggleChat()">💬 استفسر</button></div></div>`;openModal('serviceModal')}
+
+/* ============ WORKFLOW ============ */
+let wStep=1,wData={service:null,template:null,style:null,feats:[]};
+const STYLES=[['🎨','عصري','Modern'],['✨','فاخر','Luxury'],['⬜','بسيط','Minimal'],['🚀','مستقبلي','Futuristic'],['🌙','داكن','Dark'],['🌈','ملون','Colorful']];
+const FEATLIST=['تصميم مخصص','لوحة تحكم','دفع إلكتروني','تطبيق جوال','ذكاء اصطناعي','SEO','لغتان عربي/إنجليزي','ربط واتساب','إشعارات','تقارير وتحليلات'];
+function openWorkflow(pre=null,tpl=null){wStep=1;wData={service:pre,template:tpl,style:null,feats:[]};$('wSuccess').style.display='none';$('wNav').style.display='flex';
+$('wServices').innerHTML=Object.entries(SERVICES).map(([k,s])=>`<div class="opt ${pre===k?'sel':''}" onclick="pickService('${k}',this)"><i class="${s.icon}"></i><b>${s.title}</b><small>${s.price}</small></div>`).join('');
+$('wTemplates').innerHTML=TEMPLATES.slice(0,6).map(t=>`<div class="opt ${tpl===t.name?'sel':''}" onclick="pickTpl('${t.name}',this)"><img src="${t.img}"><b style="font-size:12px">${t.name}</b></div>`).join('');
+$('wStyles').innerHTML=STYLES.map(s=>`<div class="opt" onclick="pickStyle('${s[1]}',this)"><div style="font-size:26px">${s[0]}</div><b>${s[1]}</b></div>`).join('');
+$('wFeats').innerHTML=FEATLIST.map(f=>`<div class="chk" onclick="this.classList.toggle('sel');toggleFeat('${f}')"><span class="box">✓</span>${f}</div>`).join('');
+const u=currentUser();if(u){$('wFullName').value=u.name;$('wEmail').value=u.email;$('wPhone').value=u.phone||''}
+updateW();openModal('workflowModal')}
+function pickService(k,el){wData.service=k;document.querySelectorAll('#wServices .opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function pickTpl(n,el){wData.template=n;document.querySelectorAll('#wTemplates .opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function pickStyle(n,el){wData.style=n;document.querySelectorAll('#wStyles .opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function toggleFeat(f){const i=wData.feats.indexOf(f);i>=0?wData.feats.splice(i,1):wData.feats.push(f)}
+function updateW(){document.querySelectorAll('.w-step').forEach(s=>s.classList.remove('active'));$('ws'+wStep).classList.add('active');$('wStepLabel').textContent=`الخطوة ${wStep} من 6`;$('wBack').style.visibility=wStep===1?'hidden':'visible';$('wNext').innerHTML=wStep===6?'📩 إرسال الطلب':'التالي ←';document.querySelectorAll('#wProg i').forEach((b,i)=>{b.className=i<wStep?'done':(i===wStep-1?'active':'')});
+if(wStep===6){$('wReview').innerHTML=`<div><span>🔧 الخدمة</span><b>${wData.service?SERVICES[wData.service].title:'—'}</b></div><div><span>🎨 القالب</span><b>${wData.template||'تصميم مخصص'}</b></div><div><span>✨ الستايل</span><b>${wData.style||'—'}</b></div><div><span>📁 المشروع</span><b>${$('wName').value||'—'}</b></div><div><span>💰 الميزانية</span><b>$${Number($('wBudget').value).toLocaleString()}</b></div><div><span>⏱️ المدة</span><b>${$('wTime').value}</b></div><div><span>👤 الاسم</span><b>${$('wFullName').value||'—'}</b></div><div><span>✉️ البريد</span><b>${$('wEmail').value||'—'}</b></div>`}}
+function wGo(d){if(d===1){if(wStep===1&&!wData.service)return toast('اختر الخدمة أولًا');if(wStep===3&&(!$('wName').value||!$('wDesc').value))return toast('أكمل اسم ووصف المشروع');if(wStep===5&&(!$('wFullName').value||!$('wEmail').value||!$('wPhone').value))return toast('أكمل بيانات التواصل');if(wStep===6)return submitRequest();}wStep=Math.min(6,Math.max(1,wStep+d));updateW()}
+function submitRequest(){if(!$('wAgree').checked)return toast('وافق على الشروط أولًا');const reqs=store.get('asg_requests',[]);const id='ASG-'+Math.floor(1000+Math.random()*9000);const u=currentUser();
+const r={id,service:wData.service?SERVICES[wData.service].title:'عام',template:wData.template||'مخصص',style:wData.style||'—',name:$('wName').value,desc:$('wDesc').value,feats:wData.feats,budget:'$'+Number($('wBudget').value).toLocaleString(),time:$('wTime').value,priority:$('wPriority').value,fullName:$('wFullName').value,email:$('wEmail').value,phone:$('wPhone').value,company:$('wCompany').value,status:'pending',date:new Date().toLocaleString('ar'),userEmail:u?u.email:$('wEmail').value,msgs:[]};
+reqs.unshift(r);store.set('asg_requests',reqs);
+const body=encodeURIComponent(`طلب مشروع جديد ${id}\nالخدمة: ${r.service}\nالمشروع: ${r.name}\nالوصف: ${r.desc}\nالميزانية: ${r.budget}\nالاسم: ${r.fullName}\nالجوال: ${r.phone}\nالبريد: ${r.email}`);
+setTimeout(()=>window.open(`mailto:info@asg-tech.com?subject=${encodeURIComponent('طلب مشروع '+id)}&body=${body}`,'_blank'),800);
+$('wReqId').textContent=id;$('wSuccess').style.display='block';$('wNav').style.display='none';toast('تم إرسال طلبك بنجاح!','ok')}
+
+/* ============ AUTH ============ */
+function openAuth(){openModal('authModal')}
+function authTab(t,b){document.querySelectorAll('.auth-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active'));$('al-'+t).classList.add('active')}
+function currentUser(){return store.get('asg_session',null)}
+function refreshAuth(){const u=currentUser();$('authArea').innerHTML=u?`<div class="user-chip" onclick="openDashboard()"><span class="av">${u.name[0]}</span> ${u.name.split(' ')[0]} <i class="fa-solid fa-chevron-down" style="font-size:10px"></i></div>`:`<button class="btn btn-white" onclick="openAuth()"><i class="fa-regular fa-user"></i> دخول</button>`}
+function doRegister(){const n=$('rgName').value,e=$('rgEmail').value,p=$('rgPass').value,ph=$('rgPhone').value;if(!n||!e||p.length<6)return toast('أكمل البيانات (كلمة المرور 6+ أحرف)');const users=store.get('asg_users',[]);if(users.find(u=>u.email===e))return toast('هذا البريد مسجل مسبقًا');const u={name:n,email:e,pass:btoa(p),phone:ph,date:new Date().toLocaleDateString('ar')};users.push(u);store.set('asg_users',users);store.set('asg_session',u);refreshAuth();closeModal('authModal');toast('تم إنشاء حسابك بنجاح! 🎉','ok');openDashboard()}
+function doLogin(){const e=$('liEmail').value,p=$('liPass').value;const u=store.get('asg_users',[]).find(u=>u.email===e&&u.pass===btoa(p));if(!u)return toast('بيانات الدخول غير صحيحة');store.set('asg_session',u);refreshAuth();closeModal('authModal');toast('أهلًا بعودتك '+u.name.split(' ')[0]+'! 👋','ok');openDashboard()}
+function logout(){localStorage.removeItem('asg_session');refreshAuth();closeDash('clientDash');toast('تم تسجيل الخروج')}
+function doAdminLogin(){if($('adEmail').value==='admin@asg.tech'&&$('adPass').value==='ASG2026'){store.set('asg_admin','1');closeModal('authModal');openAdmin();toast('مرحبًا بك في لوحة الإدارة 🔐','ok')}else toast('بيانات الإدارة غير صحيحة')}
+function openAdmin(){if(store.get('asg_admin',null)){closeModal('authModal');$('adminDash').classList.add('show');adPage('overview',document.querySelector('#adminDash .side-link'))}else openAuth(),authTab('admin',document.querySelectorAll('.auth-tabs button')[2])}
+function logoutAdmin(){localStorage.removeItem('asg_admin');closeDash('adminDash')}
+function closeDash(id){$(id).classList.remove('show')}
+
+/* ============ CLIENT DASH ============ */
+function openDashboard(){const u=currentUser();if(!u)return openAuth();$('clientDash').classList.add('show');$('cdWelcome').textContent=`${u.name} • ${u.email}`;cdPage('overview',document.querySelector('#clientDash .side-link'))}
+function myRequests(){const u=currentUser();return store.get('asg_requests',[]).filter(r=>r.userEmail===u.email)}
+function stName(s){return{pending:'⏳ قيد المراجعة',progress:'⚙️ قيد التنفيذ',done:'✅ مكتمل',cancel:'❌ ملغي'}[s]}
+function cdPage(p,el){document.querySelectorAll('#clientDash .side-link').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');const u=currentUser(),reqs=myRequests();const c=$('cdContent');
+if(p==='overview'){$('cdTitle').textContent='👋 أهلًا '+u.name.split(' ')[0];c.innerHTML=`<div class="dash-cards"><div class="d-card"><b>${reqs.length}</b><span>📁 إجمالي الطلبات</span></div><div class="d-card"><b>${reqs.filter(r=>r.status==='pending').length}</b><span>⏳ قيد المراجعة</span></div><div class="d-card"><b>${reqs.filter(r=>r.status==='progress').length}</b><span>⚙️ قيد التنفيذ</span></div><div class="d-card"><b>${reqs.filter(r=>r.status==='done').length}</b><span>✅ مكتملة</span></div></div><div class="d-panel"><h3>📌 أحدث طلباتك</h3>${reqs.length?reqs.slice(0,3).map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid var(--line)"><div><b>${r.id}</b> — ${r.name}<br><small style="color:var(--mut)">${r.service} • ${r.date}</small></div><span class="badge-st st-${r.status==='pending'?'pending':r.status==='progress'?'progress':r.status==='done'?'done':'cancel'}">${stName(r.status)}</span></div>`).join(''):'<p style="color:var(--mut)">لا توجد طلبات بعد — <a style="color:var(--red);font-weight:800;cursor:pointer" onclick="closeDash(\'clientDash\');openWorkflow()">ابدأ مشروعك الأول 🚀</a></p>'}</div>`}
+if(p==='requests'){$('cdTitle').textContent='📁 طلباتي ومشاريعي';c.innerHTML=`<div class="d-panel"><table><tr><th>رقم الطلب</th><th>المشروع</th><th>الخدمة</th><th>الميزانية</th><th>الحالة</th><th>التاريخ</th></tr>${reqs.map(r=>`<tr><td><b>${r.id}</b></td><td>${r.name}</td><td>${r.service}</td><td>${r.budget}</td><td><span class="badge-st st-${r.status==='pending'?'pending':r.status==='progress'?'progress':r.status==='done'?'done':'cancel'}">${stName(r.status)}</span></td><td><small>${r.date}</small></td></tr>`).join('')||'<tr><td colspan=6 style="text-align:center">لا توجد طلبات</td></tr>'}</table></div>`}
+if(p==='new'){closeDash('clientDash');openWorkflow()}
+if(p==='msgs'){$('cdTitle').textContent='💬 الرسائل والدعم';const all=store.get('asg_requests',[]);c.innerHTML=`<div class="d-panel"><h3>تواصل مع فريق مشروعك</h3><div class="f-group"><label>اختر المشروع</label><select id="msgReq">${reqs.map(r=>`<option value="${r.id}">${r.id} — ${r.name}</option>`).join('')}</select></div><div id="msgList" style="background:var(--gray);border-radius:12px;padding:14px;min-height:120px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px"></div><div style="display:flex;gap:8px"><input id="msgIn" placeholder="اكتب رسالتك..." style="flex:1;padding:12px;border-radius:12px;border:1.5px solid var(--gray2);font-family:inherit"><button class="btn btn-red" onclick="sendClientMsg()">إرسال</button></div></div>`;renderClientMsgs()}
+if(p==='profile'){$('cdTitle').textContent='👤 الملف الشخصي';c.innerHTML=`<div class="d-panel" style="max-width:500px"><div class="f-group"><label>الاسم</label><input id="pfName" value="${u.name}"></div><div class="f-group"><label>البريد</label><input value="${u.email}" disabled></div><div class="f-group"><label>الجوال</label><input id="pfPhone" value="${u.phone||''}"></div><button class="btn btn-red" onclick="saveProfile()">💾 حفظ التعديلات</button></div>`}}
+function renderClientMsgs(){const id=$('msgReq')?.value;if(!id)return;const r=store.get('asg_requests',[]).find(x=>x.id===id);$('msgList').innerHTML=(r.msgs||[]).map(m=>`<div class="msg ${m.from==='client'?'user':'bot'}">${m.text}</div>`).join('')||'<small style="color:var(--mut)">لا توجد رسائل — ابدأ المحادثة 👇</small>';$('msgReq').onchange=renderClientMsgs}
+function sendClientMsg(){const t=$('msgIn').value;if(!t)return;const reqs=store.get('asg_requests',[]);const r=reqs.find(x=>x.id===$('msgReq').value);r.msgs=r.msgs||[];r.msgs.push({from:'client',text:t});store.set('asg_requests',reqs);$('msgIn').value='';renderClientMsgs();setTimeout(()=>{r.msgs.push({from:'team',text:'شكرًا لتواصلك! استلمنا رسالتك وسيرد عليك مدير مشروعك خلال ساعات العمل. 🙏'});store.set('asg_requests',reqs);renderClientMsgs()},1200)}
+function saveProfile(){const users=store.get('asg_users',[]);const u=currentUser();const f=users.find(x=>x.email===u.email);f.name=$('pfName').value;f.phone=$('pfPhone').value;store.set('asg_users',users);store.set('asg_session',f);refreshAuth();toast('تم حفظ التعديلات','ok')}
+
+/* ============ ADMIN ============ */
+function adPage(p,el){document.querySelectorAll('#adminDash .side-link').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');const reqs=store.get('asg_requests',[]);const c=$('adContent');
+if(p==='overview'){$('adTitle').textContent='📊 إحصائيات الإدارة';const rev=reqs.length*2500;c.innerHTML=`<div class="dash-cards"><div class="d-card"><b>${reqs.length}</b><span>📦 إجمالي الطلبات</span></div><div class="d-card"><b>${reqs.filter(r=>r.status==='pending').length}</b><span>⏳ بانتظار المراجعة</span></div><div class="d-card"><b>${store.get('asg_users',[]).length}</b><span>👥 العملاء المسجلون</span></div><div class="d-card"><b>$${rev.toLocaleString()}</b><span>💰 إيراد تقديري</span></div></div><div class="d-panel"><h3>📈 الطلبات حسب الخدمة</h3>${Object.values(SERVICES).map(s=>{const n=reqs.filter(r=>r.service===s.title).length;const pc=reqs.length?Math.round(n/reqs.length*100):0;return`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800"><span>${s.title}</span><span>${n}</span></div><div style="background:var(--gray);border-radius:10px;height:10px;margin-top:4px"><div style="width:${pc}%;height:100%;background:linear-gradient(90deg,var(--red),var(--red2));border-radius:10px"></div></div></div>`}).join('')}</div>`}
+if(p==='orders'){$('adTitle').textContent='📦 إدارة الطلبات';c.innerHTML=`<div class="d-panel" style="overflow-x:auto"><table><tr><th>الطلب</th><th>العميل</th><th>المشروع</th><th>الخدمة</th><th>الميزانية</th><th>الحالة</th><th>إجراء</th></tr><tbody id="adRows"></tbody></table></div><div class="d-panel" id="adDetail" style="display:none"></div>`;renderAdminOrders()}
+if(p==='clients'){const users=store.get('asg_users',[]);$('adTitle').textContent='👥 العملاء';c.innerHTML=`<div class="d-panel"><table><tr><th>الاسم</th><th>البريد</th><th>الجوال</th><th>الطلبات</th><th>التسجيل</th></tr>${users.map(u=>`<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone||'—'}</td><td>${reqs.filter(r=>r.userEmail===u.email).length}</td><td>${u.date}</td></tr>`).join('')||'<tr><td colspan=5 style="text-align:center">لا يوجد عملاء</td></tr>'}</table></div>`}}
+function renderAdminOrders(){const rows=$('adRows');if(!rows)return;const q=($('adSearch').value||'').toLowerCase(),f=$('adFilter').value;let reqs=store.get('asg_requests',[]);if(f!=='all')reqs=reqs.filter(r=>r.status===f);if(q)reqs=reqs.filter(r=>(r.id+r.fullName+r.name+r.email).toLowerCase().includes(q));
+rows.innerHTML=reqs.map(r=>`<tr><td><b>${r.id}</b><br><small>${r.date}</small></td><td><b>${r.fullName}</b><br><small>${r.email}<br>${r.phone}</small></td><td>${r.name}<br><small style="color:var(--mut)">${(r.desc||'').slice(0,40)}...</small></td><td>${r.service}</td><td><b>${r.budget}</b><br><small>${r.time}</small></td><td><select onchange="setStatus('${r.id}',this.value)" style="padding:6px;border-radius:8px;font-family:inherit;font-weight:700"><option value="pending" ${r.status==='pending'?'selected':''}>⏳ مراجعة</option><option value="progress" ${r.status==='progress'?'selected':''}>⚙️ تنفيذ</option><option value="done" ${r.status==='done'?'selected':''}>✅ مكتمل</option><option value="cancel" ${r.status==='cancel'?'selected':''}>❌ ملغي</option></select></td><td><div class="action-btns"><button class="abtn view" onclick="viewOrder('${r.id}')">👁️</button><button class="abtn del" onclick="delOrder('${r.id}')">🗑️</button></div></td></tr>`).join('')||'<tr><td colspan=7 style="text-align:center">لا توجد طلبات مطابقة</td></tr>'}
+function setStatus(id,st){const reqs=store.get('asg_requests',[]);reqs.find(r=>r.id===id).status=st;store.set('asg_requests',reqs);toast('تم تحديث حالة '+id,'ok');renderAdminOrders()}
+function delOrder(id){if(!confirm('حذف الطلب '+id+'؟'))return;store.set('asg_requests',store.get('asg_requests',[]).filter(r=>r.id!==id));renderAdminOrders();toast('تم حذف الطلب')}
+function viewOrder(id){const r=store.get('asg_requests',[]).find(x=>x.id===id);const d=$('adDetail');d.style.display='block';d.innerHTML=`<h3>📋 تفاصيل ${r.id} — ${r.name}</h3><div class="review-box" style="margin:12px 0"><div><span>👤 العميل</span><b>${r.fullName} (${r.company||'فرد'})</b></div><div><span>✉️ البريد</span><b>${r.email}</b></div><div><span>📞 الجوال</span><b>${r.phone}</b></div><div><span>🔧 الخدمة</span><b>${r.service}</b></div><div><span>🎨 القالب/الستايل</span><b>${r.template} / ${r.style}</b></div><div><span>📝 الوصف</span><b style="max-width:60%;text-align:left">${r.desc}</b></div><div><span>⭐ المميزات</span><b>${(r.feats||[]).join('، ')||'—'}</b></div><div><span>💰 الميزانية/المدة</span><b>${r.budget} • ${r.time} • ${r.priority}</b></div></div><h4>💬 المحادثة (${(r.msgs||[]).length})</h4><div style="background:var(--gray);border-radius:12px;padding:12px;margin:10px 0;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto">${(r.msgs||[]).map(m=>`<div class="msg ${m.from==='client'?'bot':'user'}"><small>${m.from==='client'?'👤 عميل':'🎧 فريق ASG'}</small><br>${m.text}</div>`).join('')||'لا رسائل'}</div><div style="display:flex;gap:8px"><input id="adReply" placeholder="رد كفريق ASG..." style="flex:1;padding:12px;border-radius:12px;border:1.5px solid var(--gray2);font-family:inherit"><button class="btn btn-red" onclick="adminReply('${r.id}')">رد</button><a class="btn btn-dark" href="mailto:${r.email}?subject=${encodeURIComponent('بخصوص طلبك '+r.id+' — ASG')}">✉️ بريد</a><a class="btn btn-white" href="https://wa.me/${r.phone.replace(/\D/g,'')}" target="_blank">💬 واتساب</a></div>`;d.scrollIntoView({behavior:'smooth'})}
+function adminReply(id){const t=$('adReply').value;if(!t)return;const reqs=store.get('asg_requests',[]);const r=reqs.find(x=>x.id===id);r.msgs=r.msgs||[];r.msgs.push({from:'team',text:t});store.set('asg_requests',reqs);viewOrder(id);toast('تم إرسال الرد','ok')}
+function exportCSV(){const reqs=store.get('asg_requests',[]);let csv='ID,Client,Email,Phone,Project,Service,Budget,Status,Date\n'+reqs.map(r=>`${r.id},"${r.fullName}",${r.email},${r.phone},"${r.name}","${r.service}",${r.budget},${r.status},"${r.date}"`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='ASG-orders.csv';a.click();toast('تم تصدير الطلبات','ok')}
+
+/* ============ CONTACT / NEWS / CHAT ============ */
+function submitContact(e){e.preventDefault();const reqs=store.get('asg_requests',[]);const id='ASG-'+Math.floor(1000+Math.random()*9000);reqs.unshift({id,fullName:$('cName').value,email:$('cEmail').value,phone:$('cPhone').value,name:'استفسار: '+$('cService').value,desc:$('cMsg').value,service:$('cService').value,budget:'—',time:'—',template:'—',style:'—',feats:[],status:'pending',date:new Date().toLocaleString('ar'),userEmail:$('cEmail').value,msgs:[]});store.set('asg_requests',reqs);window.open(`mailto:info@asg-tech.com?subject=${encodeURIComponent('رسالة تواصل '+id)}&body=${encodeURIComponent($('cMsg').value+'\n\nمن: '+$('cName').value+' — '+$('cEmail').value)}`,'_blank');toast('تم إرسال رسالتك بنجاح! رقم التتبع '+id,'ok');e.target.reset()}
+function subscribe(){const e=$('nlEmail').value;if(!e||!e.includes('@'))return toast('أدخل بريدًا صحيحًا');toast('تم اشتراكك بنجاح! 🎉','ok');$('nlEmail').value=''}
+function toggleChat(){const b=$('chatBox');b.classList.toggle('show');if(b.classList.contains('show')&&!$('chatMsgs').children.length){botSay('👋 أهلًا بك في ASG! أنا مساعدك الذكي.');setTimeout(()=>botSay('كيف أقدر أساعدك اليوم؟ اختر: 🚀 بدء مشروع | 💰 الأسعار | ⏱️ المدد | 📞 التواصل'),700)}}
+function botSay(t){const d=document.createElement('div');d.className='msg bot';d.innerHTML=t;$('chatMsgs').appendChild(d);$('chatMsgs').scrollTop=9999}
+function sendChat(){const inp=$('chatIn'),t=inp.value.trim();if(!t)return;const d=document.createElement('div');d.className='msg user';d.textContent=t;$('chatMsgs').appendChild(d);inp.value='';$('chatMsgs').scrollTop=9999;setTimeout(()=>{let r='شكرًا لك! فريقنا سيتواصل معك قريبًا. هل تريد <b style="cursor:pointer;color:var(--red)" onclick="toggleChat();openWorkflow()">بدء مشروعك الآن 🚀</b>؟';const l=t.toLowerCase();if(t.includes('سعر')||t.includes('تكلفة')||t.includes('بكم'))r='💰 أسعارنا تبدأ من: مواقع $1,500 • متاجر $2,200 • تطبيقات $4,500 • هويات $900. <b style="cursor:pointer;color:var(--red)" onclick="toggleChat();openWorkflow()">احصل على عرض سعر مجاني</b>';else if(t.includes('مدة')||t.includes('وقت')||t.includes('كم ياخذ'))r='⏱️ المواقع 2-3 أسابيع، المتاجر 3-5، التطبيقات 6-12 أسبوع. نلتزم بجدول واضح!';else if(t.includes('مشروع')||t.includes('ابدأ')||t.includes('طلب'))r='🚀 ممتاز! اضغط <b style="cursor:pointer;color:var(--red)" onclick="toggleChat();openWorkflow()">هنا لبدء مشروعك</b> — يستغرق 3 دقائق فقط!';else if(t.includes('تواصل')||t.includes('رقم')||t.includes('واتس'))r='📞 يسعدنا خدمتك: <b dir="ltr">+966 50 000 0000</b><br>✉️ info@asg-tech.com';else if(t.includes('سلام')||t.includes('هلا')||t.includes('مرحبا'))r='👋 هلا وغلا! نورت ASG. كيف أخدمك اليوم؟';botSay(r)},800)}
+
+/* ============ LANG ============ */
+let lang='ar';$('langBtn').onclick=()=>{lang=lang==='ar'?'en':'ar';document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$('langBtn').textContent=lang==='ar'?'EN':'عربي';document.querySelectorAll('[data-ar]').forEach(el=>el.textContent=el.dataset[lang]);toast(lang==='ar'?'تم التبديل إلى العربية':'Switched to English (partial)','ok')};
+
+/* ============ EFFECTS ============ */
+function observeReveals(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal:not(.in)').forEach(el=>o.observe(el))}
+window.addEventListener('scroll',()=>{const h=document.documentElement;$('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';$('nav').classList.toggle('scrolled',h.scrollTop>40);
+document.querySelectorAll('.st-grid b').forEach(b=>{const r=b.getBoundingClientRect();if(r.top<innerHeight&&!b.done){b.done=1;let n=0;const t=+b.dataset.count;const iv=setInterval(()=>{n+=Math.ceil(t/50);if(n>=t){n=t;clearInterval(iv)}b.textContent='+'+n},30)}})});
+/* Tilt */
+document.addEventListener('mousemove',e=>{document.querySelectorAll('.s-card,.t-card').forEach(c=>{const r=c.getBoundingClientRect();if(e.clientX>r.left-100&&e.clientX<r.right+100&&e.clientY>r.top-100&&e.clientY<r.bottom+100){const x=(e.clientX-r.left-r.width/2)/20,y=(e.clientY-r.top-r.height/2)/20;c.style.transform=`perspective(800px) rotateY(${-x}deg) rotateX(${y}deg) translateY(-6px)`}else c.style.transform=''})});
+
+/* ============ THREE.JS HERO 3D ============ */
+(function(){const canvas=$('hero3d');const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(60,1,.1,100);camera.position.set(0,0,9);
+scene.add(new THREE.AmbientLight(0xffffff,.7));
+const l1=new THREE.PointLight(0xE60023,2,30);l1.position.set(5,3,4);scene.add(l1);
+const l2=new THREE.PointLight(0x4466ff,1.2,30);l2.position.set(-5,-2,3);scene.add(l2);
+const l3=new THREE.DirectionalLight(0xffffff,.6);l3.position.set(0,5,5);scene.add(l3);
+const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(2.1,.55,140,20),new THREE.MeshStandardMaterial({color:0xE60023,metalness:.7,roughness:.25,wireframe:false}));knot.position.set(3.4,0,0);scene.add(knot);
+const wire=new THREE.Mesh(new THREE.TorusKnotGeometry(2.35,.6,80,12),new THREE.MeshBasicMaterial({color:0xff2d47,wireframe:true,transparent:true,opacity:.18}));wire.position.copy(knot.position);scene.add(wire);
+const ico=new THREE.Mesh(new THREE.IcosahedronGeometry(.9,0),new THREE.MeshStandardMaterial({color:0x111118,metalness:.9,roughness:.2,flatShading:true}));ico.position.set(-1.5,2,1);scene.add(ico);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(1.5,.05,16,80),new THREE.MeshStandardMaterial({color:0xE60023,metalness:.8,roughness:.3}));ring.position.set(-1.5,2,1);scene.add(ring);
+const sphere2=new THREE.Mesh(new THREE.SphereGeometry(.5,32,32),new THREE.MeshStandardMaterial({color:0xffffff,metalness:.3,roughness:.2}));sphere2.position.set(-2.5,-1.8,2);scene.add(sphere2);
+const pGeo=new THREE.BufferGeometry();const N=900;const pos=new Float32Array(N*3),col=new Float32Array(N*3);const cA=new THREE.Color(0xE60023),cB=new THREE.Color(0x222233),cC=new THREE.Color(0xff8866);
+for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*22;pos[i*3+1]=(Math.random()-.5)*14;pos[i*3+2]=(Math.random()-.5)*10;const c=Math.random()<.4?cA:(Math.random()<.5?cB:cC);col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b}
+pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));pGeo.setAttribute('color',new THREE.BufferAttribute(col,3));
+const points=new THREE.Points(pGeo,new THREE.PointsMaterial({size:.09,vertexColors:true,transparent:true,opacity:.85}));scene.add(points);
+const grid=new THREE.GridHelper(30,30,0xE60023,0xdddddd);grid.position.y=-4.5;grid.material.transparent=true;grid.material.opacity=.25;scene.add(grid);
+let mx=0,my=0,tx=0,ty=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2});
+function resize(){const w=canvas.parentElement.clientWidth,h=canvas.parentElement.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();const mob=w<900;knot.position.x=mob?0:3.4;knot.position.y=mob?2.6:0;knot.scale.setScalar(mob?.7:1);wire.position.copy(knot.position);wire.scale.copy(knot.scale)}
+addEventListener('resize',resize);resize();
+let t=0;function anim(){requestAnimationFrame(anim);t+=.008;tx+=(mx-tx)*.04;ty+=(my-ty)*.04;
+knot.rotation.x+=.004;knot.rotation.y+=.007;wire.rotation.x-=.002;wire.rotation.y-=.003;
+ico.rotation.x+=.01;ico.rotation.y+=.015;ring.rotation.x=t*1.2;ring.rotation.y=t*.8;sphere2.position.y=-1.8+Math.sin(t*2)*.4;
+points.rotation.y=t*.03;grid.position.z=(t*2)%1;
+camera.position.x=tx*1.2;camera.position.y=-ty*.8;camera.lookAt(0,0,0);
+const rect=canvas.getBoundingClientRect();if(rect.bottom>0)renderer.render(scene,camera)}
+anim()})();
+
+/* ============ INIT ============ */
+renderServices();renderTemplates();renderWorks();renderFaq();renderTesti();refreshAuth();observeReveals();
+if(!store.get('asg_users',[]).length){store.set('asg_users',[{name:'عميل تجريبي',email:'demo@asg.com',pass:btoa('123456'),phone:'0500000000',date:new Date().toLocaleDateString('ar')}])}
+if(!store.get('asg_requests',[]).length){store.set('asg_requests',[{id:'ASG-7841',service:'المتاجر الإلكترونية',template:'متجر العطور — Essence',style:'فاخر',name:'متجر لمسة للعطور',desc:'متجر عطور فاخر مع دفع مدى وتمارا',feats:['دفع إلكتروني','SEO'],budget:'$4,500',time:'1 - 2 شهر',priority:'الجودة أولًا',fullName:'عميل تجريبي',email:'demo@asg.com',phone:'0500000000',company:'لمسة',status:'progress',date:new Date().toLocaleString('ar'),userEmail:'demo@asg.com',msgs:[{from:'team',text:'أهلًا بك! بدأنا العمل على تصاميم متجرك 🎨'}]}])}
+setTimeout(()=>$('loader').classList.add('hide'),1700);
+</script>
+</body>
+</html>
